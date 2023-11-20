@@ -88,7 +88,7 @@ export default async function getSessionToken(id:string,password:string){
             url: response.response.headers.location,
             headers: createHeader(response.response.headers['set-cookie'][2].split(';')[0])
         });
-        token = response.config.headers.Cookie.replace('_token_v2=', '');
+        token = response.config.headers.cookie.replace('_token_v2=', '');
     }
     catch(err:any){//오류시: 네트워크 에러
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
