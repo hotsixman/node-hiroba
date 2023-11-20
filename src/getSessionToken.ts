@@ -2,14 +2,14 @@ import createHeader from "./createHeader";
 import HirobaError from "./hirobaError";
 import axios from 'axios';
 
-export default async function getSessionToken(id:string,password:string){
+export default async function getSessionToken(email:string,password:string){
     let response;
     try{//첫번째 요청 => 성공
         const data = {
             client_id: 'nbgi_taiko',
             redirect_uri: 'https://www.bandainamcoid.com/v2/oauth2/auth?back=v3&client_id=nbgi_taiko&scope=JpGroupAll&redirect_uri=https%3A%2F%2Fdonderhiroba.jp%2Flogin_process.php%3Finvite_code%3D%26abs_back_url%3D%26location_code%3D&text=',
             customize_id: '',
-            login_id: id,
+            login_id: email,
             password: password,
             shortcut: 0,
             retention: 0,
