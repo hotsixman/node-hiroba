@@ -24,7 +24,7 @@ export default async function getCardList(token:string){
         let cardList:CardData[] = [];
         $('.cardSelect').each(function (index, element) {
             let cardData:CardData = {
-                taikoNo: Number($(element).find('div#mydon_area > div:nth-child(2) > p')?.text()?.replace('太鼓番: ', '')),
+                taikoNumber: Number($(element).find('div#mydon_area > div:nth-child(2) > p')?.text()?.replace('太鼓番: ', '')),
                 nickname: $(element).find('div#mydon_area > div:nth-child(3)')?.text()?.replaceAll('\n', '')?.replaceAll('\t', ''),
                 myDon: $(element).find('img')?.attr('src')
             }
@@ -37,8 +37,8 @@ export default async function getCardList(token:string){
     }
 }
 
-interface CardData{
-    taikoNo: number;
+export interface CardData{
+    taikoNumber: number;
     nickname: string;
     myDon: string | undefined;
 }
