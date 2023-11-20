@@ -1,4 +1,4 @@
-export class HerobaError extends Error{
+export default class HirobaError extends Error{
     code:string;
 
     constructor(message:string, code:string){
