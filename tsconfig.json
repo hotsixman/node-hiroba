@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "noImplicitAny": true,
-        "sourceMap": true,
+        "sourceMap": false,
         "module": "ESNext",
         "target": "ES2021",
         "allowJs": true,
