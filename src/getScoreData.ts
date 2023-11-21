@@ -2,11 +2,11 @@ import getCurrentLogin from "./getCurrentLogin";
 import createHeader from "./createHeader";
 import HirobaError from "./hirobaError";
 import axios from 'axios';
-import { load, Cheerio } from 'cheerio';
+import { load } from 'cheerio';
 import checkLogin from "./checkLogin";
 import getClearData from "./getClearData";
 
-export default async function getScoreData(token: string, songNo?: number) {
+export default async function getScoreData(token: string, songNo?: number, split?:number) {
     let currentLogin = await getCurrentLogin(token);//여기서 로그인 검사 함
 
     if (songNo) {//songNo 특정
@@ -16,15 +16,31 @@ export default async function getScoreData(token: string, songNo?: number) {
         }
     }
     else {
-        let songNos = (await getClearData(token)).clearData.map((e) => {
-            return e.songNo;
-        })
-        let scoreData: SongScoreData[] = []
-        for (const index in songNos) {
-            let songScoreData = await getScoreDataBySongNo(token, songNos[index]);
-            if (songScoreData) {
-                scoreData.push(songScoreData);
+        let clearData = await getClearData(token)
+        let songNos = clearData.clearData.map((e) => {
+            return {
+                songNo: e.songNo,
+                count: e.difficulty.length
             }
+        });
+
+        let songNoss;
+        if(split){
+            songNoss = splitIntoChunk(songNos, split);
+        }
+        else{
+            songNoss = splitIntoChunk(songNos, 20);
+        }
+        let scoreData: SongScoreData[] = [];
+        
+        for (const index in songNoss) {
+            let e = songNoss[index];
+            await Promise.all(e.map(async (e: any) => {
+                let songScoreData = await getScoreDataBySongNo(token, e.songNo, e.count);
+                if (songScoreData) {
+                    scoreData.push(songScoreData);
+                }
+            }))
         };
         return {
             card: currentLogin,
@@ -34,9 +50,15 @@ export default async function getScoreData(token: string, songNo?: number) {
 
 }
 
-async function getScoreDataBySongNo(token: string, songNo: number) {
+async function getScoreDataBySongNo(token: string, songNo: number, count?: number) {
     let songScoreData: SongScoreData | null = null;
     let diff = [1, 2, 3, 4, 5]
+    if (count) {
+        diff = [];
+        for (let i = 1; i <= count; i++) {
+            diff.push(i);
+        }
+    }
     await Promise.all(diff.map(async (e) => {
         let diffClearData = await getScoreDataBySongNoByDifficulty(token, songNo, e);
 
@@ -222,4 +244,19 @@ function getBadge(element: any) {
             return null;
         }
     }
+}
+
+function splitIntoChunk(arr: Array<any>, chunk: number): Array<any> {
+    // 빈 배열 생성
+    const result = [];
+
+    while (arr.length > 0) {
+        let tempArray;
+        // splice() 메서드를 사용하여 특정 길이만큼 배열을 분리함
+        tempArray = arr.splice(0, chunk);
+        // 빈 배열에 특정 길이만큼 분리된 배열을 추가
+        result.push(tempArray);
+    }
+
+    return result;
 }
