@@ -3,7 +3,7 @@ import createHeader from './createHeader';
 import HirobaError from './hirobaError';
 import getCardList,{type CardData} from './getCardList';
 
-export default async function cardLogin(token:string, taikoNumber:number, cardList?:CardData[]){
+export default async function cardLogin(token:string, taikoNumber:number, cardList?:CardData[]):Promise<CardData|null>{
     //카드 리스트 수집
     let list:CardData[];
     if(cardList){
@@ -15,12 +15,14 @@ export default async function cardLogin(token:string, taikoNumber:number, cardLi
 
     let matches:Match = {
         matched:false,
-        matchIndex:null
+        matchIndex:null,
+        matchCard:null
     }
     list.forEach((e, i) => {
         if(e.taikoNumber === taikoNumber){
             matches.matched = true;
             matches.matchIndex = i+1;
+            matches.matchCard = e
         }
     })
 
@@ -68,7 +70,7 @@ export default async function cardLogin(token:string, taikoNumber:number, cardLi
             throw new HirobaError(err.message, 'CANNOT_CONNECT');
         }
         
-        return token;
+        return matches.matchCard
     }
     else{//일치하는 것이 없음
         throw new HirobaError('', 'NO_MATCHED_CARD')
@@ -78,4 +80,5 @@ export default async function cardLogin(token:string, taikoNumber:number, cardLi
 interface Match{
     matched:boolean,
     matchIndex: null | Number
+    matchCard:CardData | null
 }
