@@ -10,7 +10,7 @@ export default async function cardLogin(token:string, taikoNumber:number, cardLi
         list = cardList;
     }
     else{
-        list = await getCardList(token);
+        list = await getCardList(token);//여기서 로그인체크 했음
     }
 
     let matches:Match = {
