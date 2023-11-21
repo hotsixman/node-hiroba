@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import {load} from 'cheerio';
 
-export default async function checkLogin(response:AxiosResponse) {
+export default function checkLogin(response:AxiosResponse) {
     if(response?.data){
         let $ = load(response.data);
 

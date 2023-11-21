@@ -3,6 +3,7 @@ import HirobaError from "./hirobaError";
 import axios from 'axios';
 import { load } from 'cheerio';
 import getCurrentLogin from "./getCurrentLogin";
+import checkLogin from "./checkLogin";
 
 export default async function getDaniData(token: string, daniNo?: number) {
     let currentLogin = await getCurrentLogin(token);//여기서  로그인 체크 함
@@ -37,6 +38,10 @@ async function getDaniDataByDaniNo(token: string, daniNo: number) {
     }
     catch (err: any) {//네트워크 에러
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
+    }
+
+    if(!checkLogin(response)){
+        throw new HirobaError('', 'NOT_LOGINED');
     }
 
     let $ = load(response.data);

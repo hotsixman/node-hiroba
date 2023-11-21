@@ -3,6 +3,7 @@ import { load } from 'cheerio';
 import createHeader from './createHeader';
 import HirobaError from './hirobaError';
 import getCurrentLogin from './getCurrentLogin';
+import checkLogin from './checkLogin';
 
 export default async function getClearData(token: string, genre?: number) {
     let currentLogin = await getCurrentLogin(token);//여기서 로그인 체크 했음
@@ -41,6 +42,10 @@ async function getClearDataByGenre(token:string, genre:number){
     }
     catch(err:any){
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
+    }
+
+    if(!checkLogin(response)){
+        throw new HirobaError('', 'NOT_LOGINED')
     }
 
     return parseClearData(response);    
@@ -164,10 +169,10 @@ interface Clear{
 
 class SongClearData{
     title:string;
-    songNo:Number;
+    songNo:number;
     difficulty: DifficultyClearData[] = [];
 
-    constructor(title:string, songNo:Number){
+    constructor(title:string, songNo:number){
         this.title = title;
         this.songNo = songNo;
     }

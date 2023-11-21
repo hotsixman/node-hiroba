@@ -19,7 +19,7 @@ export default async function getCurrentLogin(token:string){
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
     }
 
-    if(await checkLogin(response)){//로그인이 된 경우
+    if(checkLogin(response)){//로그인이 된 경우
         let $ = load(response.data);
         let mydonArea = $('div#mydon_area');
         let userDiv = $(mydonArea).children('div')[2]
