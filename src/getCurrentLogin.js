@@ -1,22 +1,24 @@
-import axios from 'axios';
-import { load } from 'cheerio';
-import createHeader from './createHeader';
-import HirobaError from './hirobaError';
-import checkLogin from './checkLogin';
-export default async function getCurrentLogin(token) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const axios_1 = require("axios");
+const cheerio_1 = require("cheerio");
+const createHeader_1 = require("./createHeader");
+const hirobaError_1 = require("./hirobaError");
+const checkLogin_1 = require("./checkLogin");
+async function getCurrentLogin(token) {
     let response;
     try {
-        response = await axios({
+        response = await (0, axios_1.default)({
             method: 'get',
             url: 'https://donderhiroba.jp/',
-            headers: createHeader(`_token_v2=${token}`)
+            headers: (0, createHeader_1.default)(`_token_v2=${token}`)
         });
     }
     catch (err) {
-        throw new HirobaError(err.message, 'CANNOT_CONNECT');
+        throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
-    if (checkLogin(response)) {
-        let $ = load(response.data);
+    if ((0, checkLogin_1.default)(response)) {
+        let $ = (0, cheerio_1.load)(response.data);
         let mydonArea = $('div#mydon_area');
         let userDiv = $(mydonArea).children('div')[2];
         let nickname;
@@ -44,6 +46,7 @@ export default async function getCurrentLogin(token) {
         return currentLogin;
     }
     else {
-        throw new HirobaError('', 'NOT_LOGINED');
+        throw new hirobaError_1.default('', 'NOT_LOGINED');
     }
 }
+exports.default = getCurrentLogin;

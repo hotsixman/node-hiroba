@@ -1,14 +1,16 @@
-import axios from 'axios';
-import createHeader from './createHeader';
-import HirobaError from './hirobaError';
-import getCardList from './getCardList';
-export default async function cardLogin(token, taikoNumber, cardList) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const axios_1 = require("axios");
+const createHeader_1 = require("./createHeader");
+const hirobaError_1 = require("./hirobaError");
+const getCardList_1 = require("./getCardList");
+async function cardLogin(token, taikoNumber, cardList) {
     let list;
     if (cardList) {
         list = cardList;
     }
     else {
-        list = await getCardList(token);
+        list = await (0, getCardList_1.default)(token);
     }
     let matches = {
         matched: false,
@@ -25,7 +27,7 @@ export default async function cardLogin(token, taikoNumber, cardList) {
     if (matches.matched) {
         let response;
         try {
-            await axios({
+            await (0, axios_1.default)({
                 method: 'post',
                 url: 'https://donderhiroba.jp/login_select.php',
                 headers: {
@@ -50,22 +52,23 @@ export default async function cardLogin(token, taikoNumber, cardList) {
                 response = err.response;
             }
             else {
-                throw new HirobaError(err.message, 'CANNOT_CONNECT');
+                throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
             }
         }
         try {
-            await axios({
+            await (0, axios_1.default)({
                 method: 'get',
                 url: response.headers.location,
-                headers: createHeader('_token_v2=' + token)
+                headers: (0, createHeader_1.default)('_token_v2=' + token)
             });
         }
         catch (err) {
-            throw new HirobaError(err.message, 'CANNOT_CONNECT');
+            throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
         }
         return matches.matchCard;
     }
     else {
-        throw new HirobaError('', 'NO_MATCHED_CARD');
+        throw new hirobaError_1.default('', 'NO_MATCHED_CARD');
     }
 }
+exports.default = cardLogin;

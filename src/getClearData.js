@@ -1,11 +1,13 @@
-import axios from 'axios';
-import { load } from 'cheerio';
-import createHeader from './createHeader';
-import HirobaError from './hirobaError';
-import getCurrentLogin from './getCurrentLogin';
-import checkLogin from './checkLogin';
-export default async function getClearData(token, genre) {
-    let currentLogin = await getCurrentLogin(token);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const axios_1 = require("axios");
+const cheerio_1 = require("cheerio");
+const createHeader_1 = require("./createHeader");
+const hirobaError_1 = require("./hirobaError");
+const getCurrentLogin_1 = require("./getCurrentLogin");
+const checkLogin_1 = require("./checkLogin");
+async function getClearData(token, genre) {
+    let currentLogin = await (0, getCurrentLogin_1.default)(token);
     if (genre && 0 < genre && genre < 9) {
         return {
             card: currentLogin,
@@ -26,26 +28,27 @@ export default async function getClearData(token, genre) {
         };
     }
 }
+exports.default = getClearData;
 async function getClearDataByGenre(token, genre) {
     let response;
     try {
-        response = await axios({
+        response = await (0, axios_1.default)({
             method: 'get',
             url: 'https://donderhiroba.jp/score_list.php?genre=' + genre,
-            headers: createHeader('_token_v2=' + token)
+            headers: (0, createHeader_1.default)('_token_v2=' + token)
         });
     }
     catch (err) {
-        throw new HirobaError(err.message, 'CANNOT_CONNECT');
+        throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
-    if (!checkLogin(response)) {
-        throw new HirobaError('', 'NOT_LOGINED');
+    if (!(0, checkLogin_1.default)(response)) {
+        throw new hirobaError_1.default('', 'NOT_LOGINED');
     }
     return parseClearData(response);
 }
 function parseClearData(response) {
     let songList = [];
-    let $ = load(response.data);
+    let $ = (0, cheerio_1.load)(response.data);
     $('.contentBox').each((i, e) => {
         let title = $(e).find('.songNameArea span').text();
         let songNo = Number(new URL('https://donderhiroba.jp/' + $(e).find('a').attr('href')).searchParams.get('song_no'));

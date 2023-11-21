@@ -1,11 +1,13 @@
-import createHeader from "./createHeader";
-import HirobaError from "./hirobaError";
-import axios from 'axios';
-import { load } from 'cheerio';
-import getCurrentLogin from "./getCurrentLogin";
-import checkLogin from "./checkLogin";
-export default async function getDaniData(token, daniNo) {
-    let currentLogin = await getCurrentLogin(token);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const createHeader_1 = require("./createHeader");
+const hirobaError_1 = require("./hirobaError");
+const axios_1 = require("axios");
+const cheerio_1 = require("cheerio");
+const getCurrentLogin_1 = require("./getCurrentLogin");
+const checkLogin_1 = require("./checkLogin");
+async function getDaniData(token, daniNo) {
+    let currentLogin = await (0, getCurrentLogin_1.default)(token);
     if (daniNo) {
         return {
             card: currentLogin,
@@ -24,22 +26,23 @@ export default async function getDaniData(token, daniNo) {
         };
     }
 }
+exports.default = getDaniData;
 async function getDaniDataByDaniNo(token, daniNo) {
     let response;
     try {
-        response = await axios({
+        response = await (0, axios_1.default)({
             method: 'get',
             url: 'https://donderhiroba.jp/dan_detail.php?dan=' + daniNo,
-            headers: createHeader('_token_v2=' + token)
+            headers: (0, createHeader_1.default)('_token_v2=' + token)
         });
     }
     catch (err) {
-        throw new HirobaError(err.message, 'CANNOT_CONNECT');
+        throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
-    if (!checkLogin(response)) {
-        throw new HirobaError('', 'NOT_LOGINED');
+    if (!(0, checkLogin_1.default)(response)) {
+        throw new hirobaError_1.default('', 'NOT_LOGINED');
     }
-    let $ = load(response.data);
+    let $ = (0, cheerio_1.load)(response.data);
     if ($('h1').text() === 'エラー') {
         return null;
     }

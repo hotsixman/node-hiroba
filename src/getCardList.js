@@ -1,22 +1,24 @@
-import checkLogin from "./checkLogin";
-import createHeader from "./createHeader";
-import HirobaError from "./hirobaError";
-import axios from 'axios';
-import { load } from 'cheerio';
-export default async function getCardList(token) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const checkLogin_1 = require("./checkLogin");
+const createHeader_1 = require("./createHeader");
+const hirobaError_1 = require("./hirobaError");
+const axios_1 = require("axios");
+const cheerio_1 = require("cheerio");
+async function getCardList(token) {
     let response;
     try {
-        response = await axios({
+        response = await (0, axios_1.default)({
             method: 'get',
             url: 'https://donderhiroba.jp/login_select.php',
-            headers: createHeader(`_token_v2=${token}`)
+            headers: (0, createHeader_1.default)(`_token_v2=${token}`)
         });
     }
     catch (err) {
-        throw new HirobaError(err.message, 'CANNOT_CONNECT');
+        throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
-    if (await checkLogin(response)) {
-        let $ = load(response.data);
+    if (await (0, checkLogin_1.default)(response)) {
+        let $ = (0, cheerio_1.load)(response.data);
         let cardList = [];
         $('.cardSelect').each(function (index, element) {
             let cardData = {
@@ -29,6 +31,7 @@ export default async function getCardList(token) {
         return cardList;
     }
     else {
-        throw new HirobaError('', 'NOT_LOGINED');
+        throw new hirobaError_1.default('', 'NOT_LOGINED');
     }
 }
+exports.default = getCardList;

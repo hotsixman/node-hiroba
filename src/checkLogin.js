@@ -1,7 +1,9 @@
-import { load } from 'cheerio';
-export default function checkLogin(response) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const cheerio_1 = require("cheerio");
+function checkLogin(response) {
     if (response?.data) {
-        let $ = load(response.data);
+        let $ = (0, cheerio_1.load)(response.data);
         if ($('form.login_form').length == 0) {
             return true;
         }
@@ -13,3 +15,4 @@ export default function checkLogin(response) {
         return false;
     }
 }
+exports.default = checkLogin;

@@ -1,7 +1,9 @@
-import createHeader from "./createHeader";
-import HirobaError from "./hirobaError";
-import axios from 'axios';
-export default async function getSessionToken(email, password) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const createHeader_1 = require("./createHeader");
+const hirobaError_1 = require("./hirobaError");
+const axios_1 = require("axios");
+async function getSessionToken(email, password) {
     let response;
     try {
         const data = {
@@ -16,15 +18,15 @@ export default async function getSessionToken(email, password) {
             cookie: '{"language":"ko"}',
             prompt: 'login',
         };
-        response = await axios({
+        response = await (0, axios_1.default)({
             method: 'post',
             url: 'https://account-api.bandainamcoid.com/v3/login/idpw',
-            headers: createHeader(),
+            headers: (0, createHeader_1.default)(),
             data: data
         });
     }
     catch (err) {
-        throw new HirobaError(err.message, 'CANNOT_CONNECT');
+        throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
     try {
         let cookie = '';
@@ -33,54 +35,55 @@ export default async function getSessionToken(email, password) {
                 cookie += response.data.cookie[key].name + '=' + response.data.cookie[key].value + ';';
             }
         }
-        await axios({
+        await (0, axios_1.default)({
             method: 'get',
             url: response.data.redirect,
-            headers: createHeader(cookie),
+            headers: (0, createHeader_1.default)(cookie),
             maxRedirects: 0,
         });
     }
     catch (err) {
         if (err?.response == undefined) {
-            throw new HirobaError(err?.message, 'CHECK_ID_PASSWORD');
+            throw new hirobaError_1.default(err?.message, 'CHECK_ID_PASSWORD');
         }
         else if (err?.response?.status == 302) {
             response = err;
         }
         else {
-            throw new HirobaError(err.message, 'CANNOT_CONNECT');
+            throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
         }
     }
     try {
-        await axios({
+        await (0, axios_1.default)({
             method: 'get',
             url: response.response.headers.location,
-            headers: createHeader(),
+            headers: (0, createHeader_1.default)(),
             maxRedirects: 0
         });
     }
     catch (err) {
         if (err?.response == undefined) {
-            throw new HirobaError(err?.message, 'CHECK_ID_PASSWORD');
+            throw new hirobaError_1.default(err?.message, 'CHECK_ID_PASSWORD');
         }
         else if (err?.response?.status == 302) {
             response = err;
         }
         else {
-            throw new HirobaError(err.message, 'CANNOT_CONNECT');
+            throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
         }
     }
     let token;
     try {
-        response = await axios({
+        response = await (0, axios_1.default)({
             method: 'get',
             url: response.response.headers.location,
-            headers: createHeader(response.response.headers['set-cookie'][2].split(';')[0])
+            headers: (0, createHeader_1.default)(response.response.headers['set-cookie'][2].split(';')[0])
         });
         token = response.config.headers.cookie.replace('_token_v2=', '');
     }
     catch (err) {
-        throw new HirobaError(err.message, 'CANNOT_CONNECT');
+        throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
     return token;
 }
+exports.default = getSessionToken;

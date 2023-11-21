@@ -1,26 +1,28 @@
-import createHeader from "./createHeader";
-import HirobaError from "./hirobaError";
-import axios from 'axios';
-import { load } from 'cheerio';
-import getCurrentLogin from "./getCurrentLogin";
-export default async function updateScore(token) {
-    let currentLogin = await getCurrentLogin(token);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const createHeader_1 = require("./createHeader");
+const hirobaError_1 = require("./hirobaError");
+const axios_1 = require("axios");
+const cheerio_1 = require("cheerio");
+const getCurrentLogin_1 = require("./getCurrentLogin");
+async function updateScore(token) {
+    let currentLogin = await (0, getCurrentLogin_1.default)(token);
     let response;
     try {
-        response = await axios(({
+        response = await (0, axios_1.default)(({
             method: 'get',
             url: 'https://donderhiroba.jp/score_list.php',
-            headers: createHeader('_token_v2=' + token)
+            headers: (0, createHeader_1.default)('_token_v2=' + token)
         }));
     }
     catch (err) {
-        throw new HirobaError(err.message, 'CANNOT_CONNECT');
+        throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
-    let $ = load(response.data);
+    let $ = (0, cheerio_1.load)(response.data);
     let tckt = $('#_tckt').val();
     let data = { '_tckt': '1' };
     try {
-        response = await axios({
+        response = await (0, axios_1.default)({
             method: 'get',
             url: 'https://donderhiroba.jp/ajax/update_score.php?_tckt=1&_=1690640091979',
             headers: {
@@ -38,13 +40,13 @@ export default async function updateScore(token) {
         });
     }
     catch (err) {
-        throw new HirobaError(err.message, 'CANNOT_CONNECT');
+        throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
     if (response.data.result == 0) {
-        await axios({
+        await (0, axios_1.default)({
             method: 'get',
             url: 'https://donderhiroba.jp/score_list.php',
-            headers: createHeader('_token_v2=' + token)
+            headers: (0, createHeader_1.default)('_token_v2=' + token)
         });
         return currentLogin;
     }
@@ -52,9 +54,10 @@ export default async function updateScore(token) {
         return await updateScore(token);
     }
     else if (response.data.result == 901) {
-        throw new HirobaError('', 'UNKNOWN_ERROR');
+        throw new hirobaError_1.default('', 'UNKNOWN_ERROR');
     }
     else {
-        throw new HirobaError('', 'UNKNOWN_ERROR');
+        throw new hirobaError_1.default('', 'UNKNOWN_ERROR');
     }
 }
+exports.default = updateScore;

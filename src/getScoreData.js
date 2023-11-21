@@ -1,12 +1,14 @@
-import getCurrentLogin from "./getCurrentLogin";
-import createHeader from "./createHeader";
-import HirobaError from "./hirobaError";
-import axios from 'axios';
-import { load } from 'cheerio';
-import checkLogin from "./checkLogin";
-import getClearData from "./getClearData";
-export default async function getScoreData(token, songNo, split) {
-    let currentLogin = await getCurrentLogin(token);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const getCurrentLogin_1 = require("./getCurrentLogin");
+const createHeader_1 = require("./createHeader");
+const hirobaError_1 = require("./hirobaError");
+const axios_1 = require("axios");
+const cheerio_1 = require("cheerio");
+const checkLogin_1 = require("./checkLogin");
+const getClearData_1 = require("./getClearData");
+async function getScoreData(token, songNo, split) {
+    let currentLogin = await (0, getCurrentLogin_1.default)(token);
     if (songNo) {
         return {
             card: currentLogin,
@@ -14,7 +16,7 @@ export default async function getScoreData(token, songNo, split) {
         };
     }
     else {
-        let clearData = await getClearData(token);
+        let clearData = await (0, getClearData_1.default)(token);
         let songNos = clearData.clearData.map((e) => {
             return {
                 songNo: e.songNo,
@@ -45,6 +47,7 @@ export default async function getScoreData(token, songNo, split) {
         };
     }
 }
+exports.default = getScoreData;
 async function getScoreDataBySongNo(token, songNo, count) {
     let songScoreData = null;
     let diff = [1, 2, 3, 4, 5];
@@ -68,19 +71,19 @@ async function getScoreDataBySongNo(token, songNo, count) {
 async function getScoreDataBySongNoByDifficulty(token, songNo, difficulty) {
     let response;
     try {
-        response = await axios({
+        response = await (0, axios_1.default)({
             method: 'get',
-            headers: createHeader('_token_v2=' + token),
+            headers: (0, createHeader_1.default)('_token_v2=' + token),
             url: `https://donderhiroba.jp/score_detail.php?song_no=${songNo}&level=${difficulty}`
         });
     }
     catch (err) {
-        throw new HirobaError(err.message, 'CANNOT_CONNECT');
+        throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
-    if (!checkLogin(response)) {
-        throw new HirobaError('', 'NOT_LOGINED');
+    if (!(0, checkLogin_1.default)(response)) {
+        throw new hirobaError_1.default('', 'NOT_LOGINED');
     }
-    let $ = load(response.data);
+    let $ = (0, cheerio_1.load)(response.data);
     if ($('#content').text().replaceAll('\n', '').replaceAll('\t', '') === '指定されたページは存在しません。') {
         return null;
     }
