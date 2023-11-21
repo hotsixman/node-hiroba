@@ -68,7 +68,7 @@ export default async function cardLogin(token:string, taikoNumber:number, cardLi
             throw new HirobaError(err.message, 'CANNOT_CONNECT');
         }
         
-        return true;
+        return token;
     }
     else{//일치하는 것이 없음
         throw new HirobaError('', 'NO_MATCHED_CARD')
