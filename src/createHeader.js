@@ -19,4 +19,3 @@ export default function createHeader(cookie) {
         });
     }
 }
-//# sourceMappingURL=createHeader.js.map

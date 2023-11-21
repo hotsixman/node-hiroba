@@ -8,4 +8,3 @@ import getDaniData from "./src/getDaniData";
 import getScoreData from "./src/getScoreData";
 import getSessionToken from "./src/getSessionToken";
 export { cardLogin, checkLogin, createHeader, getCardList, getClearData, getCurrentLogin, getDaniData, getScoreData, getSessionToken };
-//# sourceMappingURL=index.js.map

@@ -5,18 +5,17 @@ import axios from 'axios';
 import { load } from 'cheerio';
 export default async function getCardList(token) {
     let response;
-    try { //login_select로 요청 보내기
+    try {
         response = await axios({
             method: 'get',
             url: 'https://donderhiroba.jp/login_select.php',
             headers: createHeader(`_token_v2=${token}`)
         });
     }
-    catch (err) { //네트워크 에러
+    catch (err) {
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
     }
-    //로그인이 되어 있는지 체크
-    if (await checkLogin(response)) { //로그인 되어 있으면
+    if (await checkLogin(response)) {
         let $ = load(response.data);
         let cardList = [];
         $('.cardSelect').each(function (index, element) {
@@ -33,4 +32,3 @@ export default async function getCardList(token) {
         throw new HirobaError('', 'NOT_LOGINED');
     }
 }
-//# sourceMappingURL=getCardList.js.map

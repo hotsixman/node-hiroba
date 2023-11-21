@@ -3,13 +3,12 @@ import createHeader from './createHeader';
 import HirobaError from './hirobaError';
 import getCardList from './getCardList';
 export default async function cardLogin(token, taikoNumber, cardList) {
-    //카드 리스트 수집
     let list;
     if (cardList) {
         list = cardList;
     }
     else {
-        list = await getCardList(token); //여기서 로그인체크 했음
+        list = await getCardList(token);
     }
     let matches = {
         matched: false,
@@ -23,9 +22,9 @@ export default async function cardLogin(token, taikoNumber, cardList) {
             matches.matchCard = e;
         }
     });
-    if (matches.matched) { //일치하는 것이 있음
+    if (matches.matched) {
         let response;
-        try { //첫번째 요청
+        try {
             await axios({
                 method: 'post',
                 url: 'https://donderhiroba.jp/login_select.php',
@@ -46,7 +45,7 @@ export default async function cardLogin(token, taikoNumber, cardList) {
                 maxRedirects: 0
             });
         }
-        catch (err) { //의도된 에러
+        catch (err) {
             if (err?.response?.status == 302) {
                 response = err.response;
             }
@@ -54,7 +53,6 @@ export default async function cardLogin(token, taikoNumber, cardList) {
                 throw new HirobaError(err.message, 'CANNOT_CONNECT');
             }
         }
-        //두 번째 요청
         try {
             await axios({
                 method: 'get',
@@ -67,8 +65,7 @@ export default async function cardLogin(token, taikoNumber, cardList) {
         }
         return matches.matchCard;
     }
-    else { //일치하는 것이 없음
+    else {
         throw new HirobaError('', 'NO_MATCHED_CARD');
     }
 }
-//# sourceMappingURL=cardLogin.js.map

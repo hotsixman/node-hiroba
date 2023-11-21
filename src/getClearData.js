@@ -5,14 +5,14 @@ import HirobaError from './hirobaError';
 import getCurrentLogin from './getCurrentLogin';
 import checkLogin from './checkLogin';
 export default async function getClearData(token, genre) {
-    let currentLogin = await getCurrentLogin(token); //여기서 로그인 체크 했음
-    if (genre && 0 < genre && genre < 9) { //특정 장르가 주어진 경우
+    let currentLogin = await getCurrentLogin(token);
+    if (genre && 0 < genre && genre < 9) {
         return {
             card: currentLogin,
             clearData: await getClearDataByGenre(token, genre)
         };
     }
-    else { //장르가 특정되지 않은 경우
+    else {
         let clearData = new Set();
         let genres = [1, 2, 3, 4, 5, 6, 7, 8];
         await Promise.all(genres.map(async (e) => {
@@ -50,19 +50,17 @@ function parseClearData(response) {
         let title = $(e).find('.songNameArea span').text();
         let songNo = Number(new URL('https://donderhiroba.jp/' + $(e).find('a').attr('href')).searchParams.get('song_no'));
         let songClear;
-        if (songList.filter(e => e.songNo === songNo).length === 0) { //중복 없음
+        if (songList.filter(e => e.songNo === songNo).length === 0) {
             songClear = new SongClearData(title, songNo);
             songList.push(songClear);
         }
-        else { //중복 있음
+        else {
             songClear = songList.filter(e => e.songNo === songNo)[0];
         }
-        //이미지에서 클리어 데이터 파싱
         let clearImg = $(e).find('.buttonList img');
         clearImg.each((i, e) => {
             let imgSrcParsed = $(e).attr('src')?.replace('image/sp/640/crown_button_', '')?.replace('_640.png', '')?.split('_');
             let className = $(e).attr('class')?.split(' ')[1];
-            //난이도
             let difficulty;
             if (className?.includes('easy')) {
                 difficulty = 'easy';
@@ -79,17 +77,16 @@ function parseClearData(response) {
             else {
                 difficulty = 'oni';
             }
-            //클리어 여부
             let clear = {
                 crown: null,
                 badge: null
             };
             let diffClear = new DifficultyClearData(difficulty, clear);
             songClear.addDifficulty(diffClear);
-            if (!imgSrcParsed || imgSrcParsed[0] === 'none') { //이미지를 찾을 수 없는 경우 또는 플레이 하지 않은 경우
+            if (!imgSrcParsed || imgSrcParsed[0] === 'none') {
                 return undefined;
             }
-            switch (imgSrcParsed[0]) { //왕관
+            switch (imgSrcParsed[0]) {
                 case 'played': {
                     clear.crown = 'played';
                     break;
@@ -107,7 +104,7 @@ function parseClearData(response) {
                     break;
                 }
             }
-            switch (imgSrcParsed[1]) { //배지
+            switch (imgSrcParsed[1]) {
                 case '8': {
                     clear.badge = 'rainbow';
                     break;
@@ -158,4 +155,3 @@ class DifficultyClearData {
         this.clear = clear;
     }
 }
-//# sourceMappingURL=getClearData.js.map

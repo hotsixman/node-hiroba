@@ -2,10 +2,10 @@ import { load } from 'cheerio';
 export default function checkLogin(response) {
     if (response?.data) {
         let $ = load(response.data);
-        if ($('form.login_form').length == 0) { //loginform없음
+        if ($('form.login_form').length == 0) {
             return true;
         }
-        else { //loginform있음
+        else {
             return false;
         }
     }
@@ -13,4 +13,3 @@ export default function checkLogin(response) {
         return false;
     }
 }
-//# sourceMappingURL=checkLogin.js.map

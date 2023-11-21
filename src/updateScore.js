@@ -4,8 +4,7 @@ import axios from 'axios';
 import { load } from 'cheerio';
 import getCurrentLogin from "./getCurrentLogin";
 export default async function updateScore(token) {
-    let currentLogin = await getCurrentLogin(token); //여기서 로그인 검사 함
-    //첫번째 요청
+    let currentLogin = await getCurrentLogin(token);
     let response;
     try {
         response = await axios(({
@@ -17,11 +16,9 @@ export default async function updateScore(token) {
     catch (err) {
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
     }
-    //tckt값 얻기
     let $ = load(response.data);
     let tckt = $('#_tckt').val();
     let data = { '_tckt': '1' };
-    //두번째 요청
     try {
         response = await axios({
             method: 'get',
@@ -61,4 +58,3 @@ export default async function updateScore(token) {
         throw new HirobaError('', 'UNKNOWN_ERROR');
     }
 }
-//# sourceMappingURL=updateScore.js.map

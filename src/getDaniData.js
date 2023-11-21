@@ -5,8 +5,8 @@ import { load } from 'cheerio';
 import getCurrentLogin from "./getCurrentLogin";
 import checkLogin from "./checkLogin";
 export default async function getDaniData(token, daniNo) {
-    let currentLogin = await getCurrentLogin(token); //여기서  로그인 체크 함
-    if (daniNo) { //단위가 정해진 경우
+    let currentLogin = await getCurrentLogin(token);
+    if (daniNo) {
         return {
             card: currentLogin,
             daniData: await getDaniDataByDaniNo(token, daniNo)
@@ -33,20 +33,18 @@ async function getDaniDataByDaniNo(token, daniNo) {
             headers: createHeader('_token_v2=' + token)
         });
     }
-    catch (err) { //네트워크 에러
+    catch (err) {
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
     }
     if (!checkLogin(response)) {
         throw new HirobaError('', 'NOT_LOGINED');
     }
     let $ = load(response.data);
-    //이상한 단위에 들어간 경우
     if ($('h1').text() === 'エラー') {
         return null;
     }
     let title = $($('#dan_detail div')[0]).text().replaceAll('\t', '').replaceAll('\n', '');
     let daniData = new DaniData(title, daniNo);
-    //플레이했을 경우
     if (!$('p.head_error').text()) {
         daniData.played = true;
         daniData.bestScore.score = Number($('.total_score_score').text());
@@ -57,14 +55,12 @@ async function getDaniDataByDaniNo(token, daniNo) {
         daniData.bestScore.maxCombo = Number($($('.total_status')[3]).text().replaceAll('\t', '').replaceAll('\n', ''));
         daniData.bestScore.hit = Number($($('.total_status')[5]).text().replaceAll('\t', '').replaceAll('\n', ''));
     }
-    //조건들 추가
     let conditionDivs = $('.odai_total_song_wrap,.odai_song_wrap');
     conditionDivs.each((i, e) => {
         let condition = null;
         let type;
-        //이름 및 타입
         let name = '';
-        if ($(e).attr('class') === 'odai_total_song_wrap') { //싱글
+        if ($(e).attr('class') === 'odai_total_song_wrap') {
             type = 'single';
             name = getConditionName($($(e).find('.odai_total_song_border span')[0]).text().trim());
         }
@@ -72,8 +68,7 @@ async function getDaniDataByDaniNo(token, daniNo) {
             type = 'multi';
             name = getConditionName($($(e).find('.odai_song_border_name')[0]).text().trim());
         }
-        //조건 채우기
-        if (type === 'single') { //싱글 조건인 경우
+        if (type === 'single') {
             condition = {
                 name,
                 type,
@@ -96,7 +91,7 @@ async function getDaniDataByDaniNo(token, daniNo) {
             };
         }
         if (condition) {
-            if (i < conditionDivs.length / 2) { //베스트 스코어 조건
+            if (i < conditionDivs.length / 2) {
                 daniData.bestScore.addCondition(condition);
             }
             else {
@@ -104,7 +99,6 @@ async function getDaniDataByDaniNo(token, daniNo) {
             }
         }
     });
-    //곡들 추가
     let songListDiv = $('#songList').children();
     songListDiv.each((i, e) => {
         let title = $(e).find('.songName').text().trim();
@@ -212,4 +206,3 @@ function getSongDifficulty(src) {
     }
     return difficulty;
 }
-//# sourceMappingURL=getDaniData.js.map

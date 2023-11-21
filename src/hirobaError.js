@@ -4,4 +4,3 @@ export default class HirobaError extends Error {
         this.code = code;
     }
 }
-//# sourceMappingURL=hirobaError.js.map

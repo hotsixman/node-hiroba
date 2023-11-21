@@ -12,10 +12,10 @@ export default async function getCurrentLogin(token) {
             headers: createHeader(`_token_v2=${token}`)
         });
     }
-    catch (err) { //에러
+    catch (err) {
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
     }
-    if (checkLogin(response)) { //로그인이 된 경우
+    if (checkLogin(response)) {
         let $ = load(response.data);
         let mydonArea = $('div#mydon_area');
         let userDiv = $(mydonArea).children('div')[2];
@@ -43,8 +43,7 @@ export default async function getCurrentLogin(token) {
         };
         return currentLogin;
     }
-    else { //로그인이 안된 경우
+    else {
         throw new HirobaError('', 'NOT_LOGINED');
     }
 }
-//# sourceMappingURL=getCurrentLogin.js.map

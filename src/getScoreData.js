@@ -6,8 +6,8 @@ import { load } from 'cheerio';
 import checkLogin from "./checkLogin";
 import getClearData from "./getClearData";
 export default async function getScoreData(token, songNo, split) {
-    let currentLogin = await getCurrentLogin(token); //여기서 로그인 검사 함
-    if (songNo) { //songNo 특정
+    let currentLogin = await getCurrentLogin(token);
+    if (songNo) {
         return {
             card: currentLogin,
             scoreData: await getScoreDataBySongNo(token, songNo)
@@ -77,16 +77,15 @@ async function getScoreDataBySongNoByDifficulty(token, songNo, difficulty) {
     catch (err) {
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
     }
-    if (!checkLogin(response)) { //로그인 풀림 확인
+    if (!checkLogin(response)) {
         throw new HirobaError('', 'NOT_LOGINED');
     }
     let $ = load(response.data);
-    //잘못된 곡
     if ($('#content').text().replaceAll('\n', '').replaceAll('\t', '') === '指定されたページは存在しません。') {
         return null;
     }
     let diffScoreData = new DifficultyScoreData(difficulty);
-    if ($('.scoreDetailStatus').find('.crown').length !== 0) { //플레이 함
+    if ($('.scoreDetailStatus').find('.crown').length !== 0) {
         diffScoreData.setData($);
     }
     let title = $('.songNameTitleScore').text().replaceAll('\n', '').replaceAll('\t', '');
@@ -216,15 +215,11 @@ function getBadge(element) {
     }
 }
 function splitIntoChunk(arr, chunk) {
-    // 빈 배열 생성
     const result = [];
     while (arr.length > 0) {
         let tempArray;
-        // splice() 메서드를 사용하여 특정 길이만큼 배열을 분리함
         tempArray = arr.splice(0, chunk);
-        // 빈 배열에 특정 길이만큼 분리된 배열을 추가
         result.push(tempArray);
     }
     return result;
 }
-//# sourceMappingURL=getScoreData.js.map
