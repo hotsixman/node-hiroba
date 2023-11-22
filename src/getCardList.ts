@@ -4,7 +4,7 @@ import HirobaError from "./hirobaError";
 import axios from 'axios';
 import {load} from 'cheerio';
 
-export default async function getCardList(token:string){
+export default async function getCardList(token:string):Promise<CardData[]>{
     let response;
     try{//login_select로 요청 보내기
         response = await axios({

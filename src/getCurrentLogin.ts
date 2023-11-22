@@ -6,7 +6,7 @@ import checkLogin from './checkLogin';
 import { type CardData } from './getCardList';
 
 
-export default async function getCurrentLogin(token:string){
+export default async function getCurrentLogin(token:string):Promise<CardData>{
     let response;
     try{
         response = await axios({

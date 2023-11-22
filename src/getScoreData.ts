@@ -5,8 +5,9 @@ import axios from 'axios';
 import { load } from 'cheerio';
 import checkLogin from "./checkLogin";
 import getClearData from "./getClearData";
+import { CardData } from "./getCardList";
 
-export default async function getScoreData(token: string, songNo?: number, split?:number) {
+export default async function getScoreData(token: string, songNo?: number, split?:number):Promise<GetScoreDataReturn>{
     let currentLogin = await getCurrentLogin(token);//여기서 로그인 검사 함
 
     if (songNo) {//songNo 특정
@@ -50,7 +51,7 @@ export default async function getScoreData(token: string, songNo?: number, split
 
 }
 
-async function getScoreDataBySongNo(token: string, songNo: number, count?: number) {
+async function getScoreDataBySongNo(token: string, songNo: number, count?: number):Promise<SongScoreData|null>{
     let songScoreData: SongScoreData | null = null;
     let diff = [1, 2, 3, 4, 5]
     if (count) {
@@ -259,4 +260,9 @@ function splitIntoChunk(arr: Array<any>, chunk: number): Array<any> {
     }
 
     return result;
+}
+
+interface GetScoreDataReturn{
+    card:CardData
+    scoreData:SongScoreData[]|null|SongScoreData
 }
