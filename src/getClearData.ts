@@ -4,8 +4,9 @@ import createHeader from './createHeader';
 import HirobaError from './hirobaError';
 import getCurrentLogin from './getCurrentLogin';
 import checkLogin from './checkLogin';
+import { CardData } from './getCardList';
 
-export default async function getClearData(token: string, genre?: number) {
+export default async function getClearData(token: string, genre?: number):Promise<GetClearDataReturn>{
     let currentLogin = await getCurrentLogin(token);//여기서 로그인 체크 했음
 
     if (genre && 0 < genre && genre < 9) {//특정 장르가 주어진 경우
@@ -190,4 +191,9 @@ class DifficultyClearData{
         this.difficulty = difficulty;
         this.clear = clear;
     }
+}
+
+interface GetClearDataReturn{
+    card:CardData
+    clearData:SongClearData[]
 }

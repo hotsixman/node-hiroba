@@ -4,8 +4,9 @@ import axios from 'axios';
 import { load } from 'cheerio';
 import getCurrentLogin from "./getCurrentLogin";
 import checkLogin from "./checkLogin";
+import { CardData } from "./getCardList";
 
-export default async function getDaniData(token: string, daniNo?: number) {
+export default async function getDaniData(token: string, daniNo?: number):Promise<GetDaniDataReturn>{
     let currentLogin = await getCurrentLogin(token);//여기서  로그인 체크 함
 
     if(daniNo){//단위가 정해진 경우
@@ -268,4 +269,9 @@ function getSongDifficulty(src:string|undefined){
         }
     }
     return difficulty;
+}
+
+interface GetDaniDataReturn{
+    card:CardData,
+    daniData:(DaniData | null)[]|null|DaniData
 }

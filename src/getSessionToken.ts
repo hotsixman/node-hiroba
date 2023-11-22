@@ -2,7 +2,7 @@ import createHeader from "./createHeader";
 import HirobaError from "./hirobaError";
 import axios from 'axios';
 
-export default async function getSessionToken(email:string,password:string){
+export default async function getSessionToken(email:string,password:string):Promise<string>{
     let response;
     try{//첫번째 요청 => 성공
         const data = {
