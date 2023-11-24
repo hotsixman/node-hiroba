@@ -10,7 +10,7 @@ function checkLogin(response) {
         return false;
     }
     if ($('h1').html()?.trim() == 'カード登録 (1枚登録中)') {
-        return false;
+        return true;
     }
     if (!response?.config?.url) {
         return false;
