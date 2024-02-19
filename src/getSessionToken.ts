@@ -2,6 +2,15 @@ import createHeader from "./createHeader";
 import HirobaError from "./hirobaError";
 import axios from 'axios';
 
+/**
+ * 이메일과 비밀번호를 이용해 동더히로바에 로그인합니다.
+ * 소셜로그인은 지원하지 않습니다.
+ * 동더히로바에서 세션 키 역할을 하는 _token_v2 쿠기 값을 반환합니다.
+ * 
+ * @param email
+ * @param password 
+ * @returns 
+ */
 export default async function getSessionToken(email:string,password:string):Promise<string>{
     let response;
     try{//첫번째 요청 => 성공
