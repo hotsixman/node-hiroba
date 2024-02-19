@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { load } from 'cheerio';
 
-export default function checkLogin(response: AxiosResponse): boolean {
+export default function isLogined(response: AxiosResponse): boolean {
     if (!response?.data) {
         return false;
 
