@@ -3,3 +3,4 @@
 
 # API
 - [getSessionToken](/docs/api/getSessionToken.md)
+- [isLogined](/docs/api/isLogined.md)

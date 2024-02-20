@@ -1,10 +1,14 @@
 import { AxiosResponse } from 'axios';
 import { load } from 'cheerio';
 
+/**
+ * axios response를 인수로 받아 로그인이 되어있는지 체크합니다.
+ * @param response
+ * @returns {boolean}
+ */
 export default function isLogined(response: AxiosResponse): boolean {
     if (!response?.data) {
         return false;
-
     }
     let $ = load(response.data);
 
