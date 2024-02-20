@@ -4,3 +4,4 @@
 # API
 - [getSessionToken](/docs/api/getSessionToken.md)
 - [isLogined](/docs/api/isLogined.md)
+- [isCardLogined](/docs/api/isCardLogined.md)
