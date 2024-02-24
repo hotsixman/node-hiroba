@@ -52,7 +52,7 @@ async function getClearDataByGenre(token:string, genre:number){
     return parseClearData(response);    
 }
 
-function parseClearData(response:AxiosResponse){
+function parseClearData(response:AxiosResponse):SongClearData[]{
     let songList:SongClearData[] = [];
 
     let $ = load(response.data);
