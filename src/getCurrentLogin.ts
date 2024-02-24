@@ -53,6 +53,6 @@ export default async function getCurrentLogin(token:string):Promise<CardData>{
         return currentLogin;
     }
     else{//로그인이 안된 경우
-        throw new HirobaError('', 'NOT_LOGINED');
+        throw new HirobaError('', 'NOT_CARD_LOGINED');
     }
 }
