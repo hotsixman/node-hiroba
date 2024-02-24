@@ -6,7 +6,7 @@ import getCurrentLogin from "./getCurrentLogin";
 import isCardLogined from "./isCardLogined";
 import { CardData } from "./getCardList";
 
-export default async function getDaniData(token: string, daniNo?: number):Promise<GetDaniDataReturn>{
+export default async function getDaniData(token: string, daniNo?: 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19):Promise<GetDaniDataReturn>{
     let currentLogin = await getCurrentLogin(token);//여기서  로그인 체크 함
 
     if(daniNo){//단위가 정해진 경우
@@ -23,7 +23,7 @@ export default async function getDaniData(token: string, daniNo?: number):Promis
         }));
         return {
             card: currentLogin,
-            daniData
+            daniData:daniData.filter(e => e !== null)
         }
     }
 }   
