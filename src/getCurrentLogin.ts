@@ -2,7 +2,7 @@ import axios from 'axios';
 import { load } from 'cheerio';
 import createHeader from './createHeader';
 import HirobaError from './hirobaError';
-import checkLogin from './checkLogin';
+import isCardLogined from './isCardLogined';
 import { type CardData } from './getCardList';
 
 
@@ -19,7 +19,7 @@ export default async function getCurrentLogin(token:string):Promise<CardData>{
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
     }
 
-    if(checkLogin(response)){//로그인이 된 경우
+    if(isCardLogined(response)){//로그인이 된 경우
         let $ = load(response.data);
         let mydonArea = $('div#mydon_area');
         let userDiv = $(mydonArea).children('div')[2]
