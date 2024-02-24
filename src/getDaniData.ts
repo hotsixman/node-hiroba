@@ -3,7 +3,7 @@ import HirobaError from "./hirobaError";
 import axios from 'axios';
 import { load } from 'cheerio';
 import getCurrentLogin from "./getCurrentLogin";
-import checkLogin from "./checkLogin";
+import isCardLogined from "./isCardLogined";
 import { CardData } from "./getCardList";
 
 export default async function getDaniData(token: string, daniNo?: number):Promise<GetDaniDataReturn>{
@@ -41,8 +41,8 @@ async function getDaniDataByDaniNo(token: string, daniNo: number) {
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
     }
 
-    if(!checkLogin(response)){
-        throw new HirobaError('', 'NOT_LOGINED');
+    if(!isCardLogined(response)){
+        throw new HirobaError('', 'NOT_CARD_LOGINED');
     }
 
     let $ = load(response.data);
