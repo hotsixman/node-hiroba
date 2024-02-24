@@ -16,18 +16,20 @@ export default async function getClearData(token: string, genre?: 1|2|3|4|5|6|7|
         }
     }
     else{//장르가 특정되지 않은 경우
-        let clearData = new Set<SongClearData>();
+        let clearData:SongClearData[] = [];
 
         let genres = [1,2,3,4,5,6,7,8]
         await Promise.all(genres.map(async (e) => {
             (await getClearDataByGenre(token, e)).forEach(e => {
-                clearData.add(e);
+                if(!clearData.find(el => el.songNo === e.songNo)){
+                    clearData.push(e);
+                }
             })
         }));
 
         return {
             card: currentLogin,
-            clearData: [...clearData]
+            clearData
         }
     }
 }
