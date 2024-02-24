@@ -3,13 +3,13 @@ import { load } from 'cheerio';
 import createHeader from './createHeader';
 import HirobaError from './hirobaError';
 import getCurrentLogin from './getCurrentLogin';
-import checkLogin from './checkLogin';
+import isCardLogined from './isCardLogined';
 import { CardData } from './getCardList';
 
-export default async function getClearData(token: string, genre?: number):Promise<GetClearDataReturn>{
+export default async function getClearData(token: string, genre?: 1|2|3|4|5|6|7|8):Promise<GetClearDataReturn>{
     let currentLogin = await getCurrentLogin(token);//여기서 로그인 체크 했음
 
-    if (genre && 0 < genre && genre < 9) {//특정 장르가 주어진 경우
+    if (genre) {//특정 장르가 주어진 경우
         return {
             card: currentLogin,
             clearData: await getClearDataByGenre(token, genre)
@@ -45,8 +45,8 @@ async function getClearDataByGenre(token:string, genre:number){
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
     }
 
-    if(!checkLogin(response)){
-        throw new HirobaError('', 'NOT_LOGINED')
+    if(!isCardLogined(response)){
+        throw new HirobaError('', 'NOT_CARD_LOGINED')
     }
 
     return parseClearData(response);    
