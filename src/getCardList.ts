@@ -1,4 +1,4 @@
-import checkLogin from "./checkLogin";
+import isLogined from "./isLogined";
 import createHeader from "./createHeader";
 import HirobaError from "./hirobaError";
 import axios from 'axios';
@@ -18,7 +18,7 @@ export default async function getCardList(token:string):Promise<CardData[]>{
     }
 
     //로그인이 되어 있는지 체크
-    if(await checkLogin(response)){//로그인 되어 있으면
+    if(isLogined(response)){//로그인 되어 있으면
         let $ = load(response.data);
 
         let cardList:CardData[] = [];

@@ -3,17 +3,17 @@ import createHeader from "./createHeader";
 import HirobaError from "./hirobaError";
 import axios from 'axios';
 import { load } from 'cheerio';
-import checkLogin from "./checkLogin";
+import isCardLogined from "./isCardLogined";
 import getClearData from "./getClearData";
 import { CardData } from "./getCardList";
 
-export default async function getScoreData(token: string, songNo?: number, split?:number):Promise<GetScoreDataReturn>{
+export default async function getScoreData(token: string, option?:{songNo:number}|{split:number}):Promise<GetScoreDataReturn>{
     let currentLogin = await getCurrentLogin(token);//여기서 로그인 검사 함
 
-    if (songNo) {//songNo 특정
+    if (option && 'songNo' in option) {//songNo 특정
         return {
             card: currentLogin,
-            scoreData: await getScoreDataBySongNo(token, songNo)
+            scoreData: await getScoreDataBySongNo(token, option.songNo)
         }
     }
     else {
@@ -26,8 +26,8 @@ export default async function getScoreData(token: string, songNo?: number, split
         });
 
         let songNoss;
-        if(split){
-            songNoss = splitIntoChunk(songNos, split);
+        if(option && 'split' in option){
+            songNoss = splitIntoChunk(songNos, option.split);
         }
         else{
             songNoss = splitIntoChunk(songNos, 20);
@@ -87,7 +87,7 @@ async function getScoreDataBySongNoByDifficulty(token: string, songNo: number, d
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
     }
 
-    if (!checkLogin(response)) {//로그인 풀림 확인
+    if (!isCardLogined(response)) {//로그인 풀림 확인
         throw new HirobaError('', 'NOT_LOGINED');
     }
 

@@ -3,10 +3,10 @@ import HirobaError from "./hirobaError";
 import axios from 'axios';
 import { load } from 'cheerio';
 import getCurrentLogin from "./getCurrentLogin";
-import checkLogin from "./checkLogin";
+import isCardLogined from "./isCardLogined";
 import { CardData } from "./getCardList";
 
-export default async function getDaniData(token: string, daniNo?: number):Promise<GetDaniDataReturn>{
+export default async function getDaniData(token: string, daniNo?: 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19):Promise<GetDaniDataReturn>{
     let currentLogin = await getCurrentLogin(token);//여기서  로그인 체크 함
 
     if(daniNo){//단위가 정해진 경우
@@ -23,7 +23,7 @@ export default async function getDaniData(token: string, daniNo?: number):Promis
         }));
         return {
             card: currentLogin,
-            daniData
+            daniData:daniData.filter(e => e !== null)
         }
     }
 }   
@@ -41,8 +41,8 @@ async function getDaniDataByDaniNo(token: string, daniNo: number) {
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
     }
 
-    if(!checkLogin(response)){
-        throw new HirobaError('', 'NOT_LOGINED');
+    if(!isCardLogined(response)){
+        throw new HirobaError('', 'NOT_CARD_LOGINED');
     }
 
     let $ = load(response.data);

@@ -3,15 +3,10 @@ import createHeader from './createHeader';
 import HirobaError from './hirobaError';
 import getCardList,{type CardData} from './getCardList';
 
-export default async function cardLogin(token:string, taikoNumber:number, cardList?:CardData[]):Promise<CardData|null>{
+
+export default async function cardLogin(token:string, taikoNumber:number):Promise<CardData|null>{
     //카드 리스트 수집
-    let list:CardData[];
-    if(cardList){
-        list = cardList;
-    }
-    else{
-        list = await getCardList(token);//여기서 로그인체크 했음
-    }
+    let list:CardData[] = await getCardList(token);//여기서 로그인체크 했음
 
     let matches:Match = {
         matched:false,

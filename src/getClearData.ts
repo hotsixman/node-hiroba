@@ -3,31 +3,33 @@ import { load } from 'cheerio';
 import createHeader from './createHeader';
 import HirobaError from './hirobaError';
 import getCurrentLogin from './getCurrentLogin';
-import checkLogin from './checkLogin';
+import isCardLogined from './isCardLogined';
 import { CardData } from './getCardList';
 
-export default async function getClearData(token: string, genre?: number):Promise<GetClearDataReturn>{
+export default async function getClearData(token: string, genre?: 1|2|3|4|5|6|7|8):Promise<GetClearDataReturn>{
     let currentLogin = await getCurrentLogin(token);//여기서 로그인 체크 했음
 
-    if (genre && 0 < genre && genre < 9) {//특정 장르가 주어진 경우
+    if (genre) {//특정 장르가 주어진 경우
         return {
             card: currentLogin,
             clearData: await getClearDataByGenre(token, genre)
         }
     }
     else{//장르가 특정되지 않은 경우
-        let clearData = new Set<SongClearData>();
+        let clearData:SongClearData[] = [];
 
         let genres = [1,2,3,4,5,6,7,8]
         await Promise.all(genres.map(async (e) => {
             (await getClearDataByGenre(token, e)).forEach(e => {
-                clearData.add(e);
+                if(!clearData.find(el => el.songNo === e.songNo)){
+                    clearData.push(e);
+                }
             })
         }));
 
         return {
             card: currentLogin,
-            clearData: [...clearData]
+            clearData
         }
     }
 }
@@ -45,14 +47,14 @@ async function getClearDataByGenre(token:string, genre:number){
         throw new HirobaError(err.message, 'CANNOT_CONNECT');
     }
 
-    if(!checkLogin(response)){
-        throw new HirobaError('', 'NOT_LOGINED')
+    if(!isCardLogined(response)){
+        throw new HirobaError('', 'NOT_CARD_LOGINED')
     }
 
     return parseClearData(response);    
 }
 
-function parseClearData(response:AxiosResponse){
+function parseClearData(response:AxiosResponse):SongClearData[]{
     let songList:SongClearData[] = [];
 
     let $ = load(response.data);

@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import { load } from 'cheerio';
 
 /**
- * axios response를 인수로 받아 로그인이 되어있는지 체크합니다.
+ * axios response를 인수로 받아 카드 로그인이 되어있는지 체크합니다.
  * @param response
  * @returns {boolean}
  */
@@ -16,7 +16,7 @@ export default function isLogined(response: AxiosResponse): boolean {
         return false;
     }
     if($('h1').html()?.trim() == 'カード登録 (1枚登録中)'){//카드 선택창일 때
-        return true;
+        return false;
     }
     if(!response?.config?.url){//url이 없음
         return false;
