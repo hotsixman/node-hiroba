@@ -5,7 +5,7 @@ const hirobaError_1 = require("./hirobaError");
 const axios_1 = require("axios");
 const cheerio_1 = require("cheerio");
 const getCurrentLogin_1 = require("./getCurrentLogin");
-const checkLogin_1 = require("./checkLogin");
+const isCardLogined_1 = require("./isCardLogined");
 async function getDaniData(token, daniNo) {
     let currentLogin = await (0, getCurrentLogin_1.default)(token);
     if (daniNo) {
@@ -22,7 +22,7 @@ async function getDaniData(token, daniNo) {
         }));
         return {
             card: currentLogin,
-            daniData
+            daniData: daniData.filter(e => e !== null)
         };
     }
 }
@@ -39,8 +39,8 @@ async function getDaniDataByDaniNo(token, daniNo) {
     catch (err) {
         throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
-    if (!(0, checkLogin_1.default)(response)) {
-        throw new hirobaError_1.default('', 'NOT_LOGINED');
+    if (!(0, isCardLogined_1.default)(response)) {
+        throw new hirobaError_1.default('', 'NOT_CARD_LOGINED');
     }
     let $ = (0, cheerio_1.load)(response.data);
     if ($('h1').text() === 'エラー') {

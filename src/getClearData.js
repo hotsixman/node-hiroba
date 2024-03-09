@@ -5,26 +5,28 @@ const cheerio_1 = require("cheerio");
 const createHeader_1 = require("./createHeader");
 const hirobaError_1 = require("./hirobaError");
 const getCurrentLogin_1 = require("./getCurrentLogin");
-const checkLogin_1 = require("./checkLogin");
+const isCardLogined_1 = require("./isCardLogined");
 async function getClearData(token, genre) {
     let currentLogin = await (0, getCurrentLogin_1.default)(token);
-    if (genre && 0 < genre && genre < 9) {
+    if (genre) {
         return {
             card: currentLogin,
             clearData: await getClearDataByGenre(token, genre)
         };
     }
     else {
-        let clearData = new Set();
+        let clearData = [];
         let genres = [1, 2, 3, 4, 5, 6, 7, 8];
         await Promise.all(genres.map(async (e) => {
             (await getClearDataByGenre(token, e)).forEach(e => {
-                clearData.add(e);
+                if (!clearData.find(el => el.songNo === e.songNo)) {
+                    clearData.push(e);
+                }
             });
         }));
         return {
             card: currentLogin,
-            clearData: [...clearData]
+            clearData
         };
     }
 }
@@ -41,8 +43,8 @@ async function getClearDataByGenre(token, genre) {
     catch (err) {
         throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
-    if (!(0, checkLogin_1.default)(response)) {
-        throw new hirobaError_1.default('', 'NOT_LOGINED');
+    if (!(0, isCardLogined_1.default)(response)) {
+        throw new hirobaError_1.default('', 'NOT_CARD_LOGINED');
     }
     return parseClearData(response);
 }

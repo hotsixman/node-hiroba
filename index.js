@@ -1,21 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSessionToken = exports.getScoreData = exports.getDaniData = exports.getCurrentLogin = exports.getClearData = exports.getCardList = exports.createHeader = exports.checkLogin = exports.cardLogin = void 0;
 const cardLogin_1 = require("./src/cardLogin");
-exports.cardLogin = cardLogin_1.default;
-const checkLogin_1 = require("./src/checkLogin");
-exports.checkLogin = checkLogin_1.default;
-const createHeader_1 = require("./src/createHeader");
-exports.createHeader = createHeader_1.default;
 const getCardList_1 = require("./src/getCardList");
-exports.getCardList = getCardList_1.default;
 const getClearData_1 = require("./src/getClearData");
-exports.getClearData = getClearData_1.default;
 const getCurrentLogin_1 = require("./src/getCurrentLogin");
-exports.getCurrentLogin = getCurrentLogin_1.default;
 const getDaniData_1 = require("./src/getDaniData");
-exports.getDaniData = getDaniData_1.default;
 const getScoreData_1 = require("./src/getScoreData");
-exports.getScoreData = getScoreData_1.default;
 const getSessionToken_1 = require("./src/getSessionToken");
-exports.getSessionToken = getSessionToken_1.default;
+const isLogined_1 = require("./src/isLogined");
+const isCardLogined_1 = require("./src/isCardLogined");
+const hiroba = {
+    cardLogin: cardLogin_1.default,
+    getCardList: getCardList_1.default,
+    getClearData: getClearData_1.default,
+    getCurrentLogin: getCurrentLogin_1.default,
+    getDaniData: getDaniData_1.default,
+    getScoreData: getScoreData_1.default,
+    getSessionToken: getSessionToken_1.default,
+    isLogined: isLogined_1.default,
+    isCardLogined: isCardLogined_1.default
+};
+exports.default = hiroba;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const checkLogin_1 = require("./checkLogin");
+const isLogined_1 = require("./isLogined");
 const createHeader_1 = require("./createHeader");
 const hirobaError_1 = require("./hirobaError");
 const axios_1 = require("axios");
@@ -17,7 +17,7 @@ async function getCardList(token) {
     catch (err) {
         throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
-    if (await (0, checkLogin_1.default)(response)) {
+    if ((0, isLogined_1.default)(response)) {
         let $ = (0, cheerio_1.load)(response.data);
         let cardList = [];
         $('.cardSelect').each(function (index, element) {

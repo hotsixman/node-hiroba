@@ -4,7 +4,7 @@ const axios_1 = require("axios");
 const cheerio_1 = require("cheerio");
 const createHeader_1 = require("./createHeader");
 const hirobaError_1 = require("./hirobaError");
-const checkLogin_1 = require("./checkLogin");
+const isCardLogined_1 = require("./isCardLogined");
 async function getCurrentLogin(token) {
     let response;
     try {
@@ -17,7 +17,7 @@ async function getCurrentLogin(token) {
     catch (err) {
         throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
-    if ((0, checkLogin_1.default)(response)) {
+    if ((0, isCardLogined_1.default)(response)) {
         let $ = (0, cheerio_1.load)(response.data);
         let mydonArea = $('div#mydon_area');
         let userDiv = $(mydonArea).children('div')[2];
@@ -46,7 +46,7 @@ async function getCurrentLogin(token) {
         return currentLogin;
     }
     else {
-        throw new hirobaError_1.default('', 'NOT_LOGINED');
+        throw new hirobaError_1.default('', 'NOT_CARD_LOGINED');
     }
 }
 exports.default = getCurrentLogin;
