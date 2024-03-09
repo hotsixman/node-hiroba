@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const cheerio_1 = require("cheerio");
-function checkLogin(response) {
+function isLogined(response) {
     if (!response?.data) {
         return false;
     }
@@ -20,4 +20,4 @@ function checkLogin(response) {
     }
     return true;
 }
-exports.default = checkLogin;
+exports.default = isLogined;

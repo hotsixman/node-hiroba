@@ -5,14 +5,14 @@ const createHeader_1 = require("./createHeader");
 const hirobaError_1 = require("./hirobaError");
 const axios_1 = require("axios");
 const cheerio_1 = require("cheerio");
-const checkLogin_1 = require("./checkLogin");
+const isCardLogined_1 = require("./isCardLogined");
 const getClearData_1 = require("./getClearData");
-async function getScoreData(token, songNo, split) {
+async function getScoreData(token, option) {
     let currentLogin = await (0, getCurrentLogin_1.default)(token);
-    if (songNo) {
+    if (option && 'songNo' in option) {
         return {
             card: currentLogin,
-            scoreData: await getScoreDataBySongNo(token, songNo)
+            scoreData: await getScoreDataBySongNo(token, option.songNo)
         };
     }
     else {
@@ -24,8 +24,8 @@ async function getScoreData(token, songNo, split) {
             };
         });
         let songNoss;
-        if (split) {
-            songNoss = splitIntoChunk(songNos, split);
+        if (option && 'split' in option) {
+            songNoss = splitIntoChunk(songNos, option.split);
         }
         else {
             songNoss = splitIntoChunk(songNos, 20);
@@ -80,7 +80,7 @@ async function getScoreDataBySongNoByDifficulty(token, songNo, difficulty) {
     catch (err) {
         throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
     }
-    if (!(0, checkLogin_1.default)(response)) {
+    if (!(0, isCardLogined_1.default)(response)) {
         throw new hirobaError_1.default('', 'NOT_LOGINED');
     }
     let $ = (0, cheerio_1.load)(response.data);

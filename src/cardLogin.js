@@ -4,14 +4,8 @@ const axios_1 = require("axios");
 const createHeader_1 = require("./createHeader");
 const hirobaError_1 = require("./hirobaError");
 const getCardList_1 = require("./getCardList");
-async function cardLogin(token, taikoNumber, cardList) {
-    let list;
-    if (cardList) {
-        list = cardList;
-    }
-    else {
-        list = await (0, getCardList_1.default)(token);
-    }
+async function cardLogin(token, taikoNumber) {
+    let list = await (0, getCardList_1.default)(token);
     let matches = {
         matched: false,
         matchIndex: null,
