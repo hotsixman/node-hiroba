@@ -1,18 +1,18 @@
 # getClearData
 
-## 설명
-클리어 데이터를 가져옵니다.
+## explanation
+Get clear data of your card-logined card.
 
-## 파라미터
+## usage
 
 ```ts
 export default async function getClearData(token: string, genre?: 1|2|3|4|5|6|7|8):Promise<GetClearDataReturn>
 ```
 
 ```ts
-interface Clear{
-    crown: string|null,
-    badge: string|null
+interface GetClearDataReturn{
+    card:CardData
+    clearData:SongClearData[]
 }
 
 class SongClearData{
@@ -30,6 +30,11 @@ class SongClearData{
     }
 }
 
+interface Clear{
+    crown: string|null,
+    badge: string|null
+}
+
 class DifficultyClearData{
     difficulty:string;
     clear:Clear;
@@ -39,21 +44,43 @@ class DifficultyClearData{
         this.clear = clear;
     }
 }
-
-interface GetClearDataReturn{
-    card:CardData
-    clearData:SongClearData[]
-}
 ```
 
-## 예시
+## example
 
 ```ts
 let data = await getClearData(token: 'testtoken', 1)
 
-console.log(data.clearData);
+/*
+{
+  card: {
+    nickname: 'example',
+    taikoNumber: 1234567890,
+    myDon: 'https://img.taiko-p.jp/imgsrc.php?v=&kind=mydon&fn=mydon_1234567890'
+  },
+  clearData: [
+    SongClearData { difficulty: [Array], title: 'アイドル', songNo: 1209 },
+    SongClearData {
+      difficulty: [Array],
+      title: '逆戦 NI ZHAN',
+      songNo: 1188
+    },
+    SongClearData {
+      difficulty: [Array],
+      title: 'Love You',
+      songNo: 1187
+    },
+    SongClearData {
+      difficulty: [Array],
+      title: 'Surges',
+      songNo: 1213
+    },
+    ...
+  ]
+}
+*/
 ```
 
-## 에러
-- `CANNOT_CONNECT`: 연결 오류(대부분 네트워크 오류입니다.)
-- `NOT_CARD_LOGINED`: 카드 로그인이 되어있지 않습니다.
+## errors
+- `CANNOT_CONNECT`: axios network error
+- `NOT_CARD_LOGINED`: not card-logined

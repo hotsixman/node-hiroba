@@ -4,7 +4,7 @@ import createHeader from './createHeader';
 import HirobaError from './hirobaError';
 import getCurrentLogin from './getCurrentLogin';
 import isCardLogined from './isCardLogined';
-import { CardData } from './getCardList';
+import { Clear, SongClearData, DifficultyClearData, GetClearDataReturn } from './types/clearData';
 
 export default async function getClearData(token: string, genre?: 1|2|3|4|5|6|7|8):Promise<GetClearDataReturn>{
     let currentLogin = await getCurrentLogin(token);//여기서 로그인 체크 했음
@@ -163,39 +163,4 @@ function parseClearData(response:AxiosResponse):SongClearData[]{
     })
 
     return songList;
-}
-
-interface Clear{
-    crown: string|null,
-    badge: string|null
-}
-
-class SongClearData{
-    title:string;
-    songNo:number;
-    difficulty: DifficultyClearData[] = [];
-
-    constructor(title:string, songNo:number){
-        this.title = title;
-        this.songNo = songNo;
-    }
-
-    addDifficulty(d: DifficultyClearData){
-        this.difficulty.push(d);
-    }
-}
-
-class DifficultyClearData{
-    difficulty:string;
-    clear:Clear;
-
-    constructor(difficulty:string, clear:Clear){
-        this.difficulty = difficulty;
-        this.clear = clear;
-    }
-}
-
-interface GetClearDataReturn{
-    card:CardData
-    clearData:SongClearData[]
 }

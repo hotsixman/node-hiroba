@@ -5,9 +5,12 @@ import axios from 'axios';
 import { load } from 'cheerio';
 import isCardLogined from "./isCardLogined";
 import getClearData from "./getClearData";
-import { CardData } from "./getCardList";
+import { Count, GetScoreDataReturn, SongScoreDataInterface, DifficultyScoreDataInterface } from "./types/getScoreData";
 
-export default async function getScoreData(token: string, option?:{songNo:number}|{split:number}):Promise<GetScoreDataReturn>{
+export default async function getScoreData(token:string):Promise<GetScoreDataReturn<'list', SongScoreData>>;
+export default async function getScoreData(token:string, option:{songNo:number}):Promise<GetScoreDataReturn<'single', SongScoreData>>;
+export default async function getScoreData(token:string, option:{split:number}):Promise<GetScoreDataReturn<'list', SongScoreData>>;
+export default async function getScoreData(token: string, option?:{songNo:number}|{split:number}){
     let currentLogin = await getCurrentLogin(token);//여기서 로그인 검사 함
 
     if (option && 'songNo' in option) {//songNo 특정
@@ -38,7 +41,7 @@ export default async function getScoreData(token: string, option?:{songNo:number
             let e = songNoss[index];
             await Promise.all(e.map(async (e: any) => {
                 let songScoreData = await getScoreDataBySongNo(token, e.songNo, e.count);
-                if (songScoreData) {
+                if (songScoreData !== null) {
                     scoreData.push(songScoreData);
                 }
             }))
@@ -110,7 +113,7 @@ async function getScoreDataBySongNoByDifficulty(token: string, songNo: number, d
     }
 }
 
-class SongScoreData {
+class SongScoreData implements SongScoreDataInterface{
     title: string;
     songNo: number;
     difficultyScoreData: DifficultyScoreData[] = []
@@ -124,7 +127,7 @@ class SongScoreData {
     }
 }
 
-class DifficultyScoreData {
+class DifficultyScoreData implements DifficultyScoreDataInterface {
     difficulty: string = '';
     crown: string | null = null;
     badge: string | null = null;
@@ -182,13 +185,6 @@ class DifficultyScoreData {
         this.count.fullcombo = Number($($('.full_combo_cnt')[0]).text().replace(/[^0-9]/g, ''));
         this.count.donderfullcombo = Number($($('.dondafull_combo_cnt')[0]).text().replace(/[^0-9]/g, ''));
     }
-}
-
-interface Count {
-    play: number
-    clear: number
-    fullcombo: number
-    donderfullcombo: number
 }
 
 function getCrown(src: string | undefined) {
@@ -260,9 +256,4 @@ function splitIntoChunk(arr: Array<any>, chunk: number): Array<any> {
     }
 
     return result;
-}
-
-interface GetScoreDataReturn{
-    card:CardData
-    scoreData:SongScoreData[]|null|SongScoreData
 }

@@ -4,12 +4,14 @@ import axios from 'axios';
 import { load } from 'cheerio';
 import getCurrentLogin from "./getCurrentLogin";
 import isCardLogined from "./isCardLogined";
-import { CardData } from "./getCardList";
+import { DaniNo, DaniData, GetDaniDataReturn, SingleCondition, MultiCondition, MultiConditionRecord, SongRecord } from "./types/getDaniData";
 
-export default async function getDaniData(token: string, daniNo?: 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19):Promise<GetDaniDataReturn>{
-    let currentLogin = await getCurrentLogin(token);//여기서  로그인 체크 함
+export default async function getDaniData(token:string):Promise<GetDaniDataReturn<undefined>>;
+export default async function getDaniData(token:string, daniNo:DaniNo):Promise<GetDaniDataReturn<DaniNo>>;
+export default async function getDaniData(token: string, daniNo?:DaniNo){
+    let currentLogin = await getCurrentLogin(token);//여기서 로그인 체크 함
 
-    if(daniNo){//단위가 정해진 경우
+    if(daniNo !== undefined){//단위가 정해진 경우
         return {
             card: currentLogin,
             daniData: await getDaniDataByDaniNo(token,  daniNo)
@@ -23,10 +25,10 @@ export default async function getDaniData(token: string, daniNo?: 1|2|3|4|5|6|7|
         }));
         return {
             card: currentLogin,
-            daniData:daniData.filter(e => e !== null)
+            daniData:daniData.filter(e => e !== null) as DaniData[]
         }
     }
-}   
+}
 
 async function getDaniDataByDaniNo(token: string, daniNo: number) {
     let response;
@@ -149,74 +151,6 @@ async function getDaniDataByDaniNo(token: string, daniNo: number) {
     return daniData;
 }
 
-class DaniData {
-    title: string;
-    daniNo: number;
-    played: boolean = false;
-    bestScore: BestScore = new BestScore()
-    bestConditions: Condition[] = []
-
-    constructor(title: string, daniNo: number) {
-        this.title = title;
-        this.daniNo = daniNo;
-    }
-
-    addBestCondition(condition: Condition) {
-        this.bestConditions.push(condition);
-    }
-}
-
-class BestScore {
-    score: number = 0;
-    good: number = 0;
-    ok: number = 0;
-    bad: number = 0;
-    roll: number = 0;
-    maxCombo: number = 0;
-    hit: number = 0;
-    conditions: (SingleCondition | MultiCondition)[] = [];
-    songRecords: SongRecord[] = [];
-
-    addCondition(condition: SingleCondition | MultiCondition) {
-        this.conditions.push(condition)
-    }
-
-    addSongRecord(songRecord: SongRecord) {
-        this.songRecords.push(songRecord);
-    }
-}
-
-interface Condition {
-    name: string;
-}
-
-interface SingleCondition extends Condition {
-    type: 'single'
-    cutoff: number
-    record: number
-}
-
-interface MultiCondition extends Condition {
-    type: 'multi'
-    records: MultiConditionRecord[]
-}
-
-interface MultiConditionRecord {
-    cutoff: number
-    record: number
-}
-
-interface SongRecord {
-    title: string
-    difficulty: string
-    good: number
-    ok: number
-    bad: number
-    roll: number
-    maxCombo: number
-    hit: number
-}
-
 function getConditionName(nameOriginal: string) {
     let name: string = '';
     switch (nameOriginal) {
@@ -269,9 +203,4 @@ function getSongDifficulty(src:string|undefined){
         }
     }
     return difficulty;
-}
-
-interface GetDaniDataReturn{
-    card:CardData,
-    daniData:(DaniData | null)[]|null|DaniData
 }

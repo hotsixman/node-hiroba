@@ -3,7 +3,7 @@ import { load } from 'cheerio';
 import createHeader from './createHeader';
 import HirobaError from './hirobaError';
 import isCardLogined from './isCardLogined';
-import { type CardData } from './getCardList';
+import { CardData } from './types/cardData';
 
 
 export default async function getCurrentLogin(token:string):Promise<CardData>{
