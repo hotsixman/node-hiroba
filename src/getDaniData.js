@@ -6,9 +6,10 @@ const axios_1 = require("axios");
 const cheerio_1 = require("cheerio");
 const getCurrentLogin_1 = require("./getCurrentLogin");
 const isCardLogined_1 = require("./isCardLogined");
+const getDaniData_1 = require("./types/getDaniData");
 async function getDaniData(token, daniNo) {
     let currentLogin = await (0, getCurrentLogin_1.default)(token);
-    if (daniNo) {
+    if (daniNo !== undefined) {
         return {
             card: currentLogin,
             daniData: await getDaniDataByDaniNo(token, daniNo)
@@ -47,7 +48,7 @@ async function getDaniDataByDaniNo(token, daniNo) {
         return null;
     }
     let title = $($('#dan_detail div')[0]).text().replaceAll('\t', '').replaceAll('\n', '');
-    let daniData = new DaniData(title, daniNo);
+    let daniData = new getDaniData_1.DaniData(title, daniNo);
     if (!$('p.head_error').text()) {
         daniData.played = true;
         daniData.bestScore.score = Number($('.total_score_score').text());
@@ -125,37 +126,6 @@ async function getDaniDataByDaniNo(token, daniNo) {
         daniData.bestScore.addSongRecord(songRecord);
     });
     return daniData;
-}
-class DaniData {
-    constructor(title, daniNo) {
-        this.played = false;
-        this.bestScore = new BestScore();
-        this.bestConditions = [];
-        this.title = title;
-        this.daniNo = daniNo;
-    }
-    addBestCondition(condition) {
-        this.bestConditions.push(condition);
-    }
-}
-class BestScore {
-    constructor() {
-        this.score = 0;
-        this.good = 0;
-        this.ok = 0;
-        this.bad = 0;
-        this.roll = 0;
-        this.maxCombo = 0;
-        this.hit = 0;
-        this.conditions = [];
-        this.songRecords = [];
-    }
-    addCondition(condition) {
-        this.conditions.push(condition);
-    }
-    addSongRecord(songRecord) {
-        this.songRecords.push(songRecord);
-    }
 }
 function getConditionName(nameOriginal) {
     let name = '';

@@ -6,6 +6,7 @@ const createHeader_1 = require("./createHeader");
 const hirobaError_1 = require("./hirobaError");
 const getCurrentLogin_1 = require("./getCurrentLogin");
 const isCardLogined_1 = require("./isCardLogined");
+const clearData_1 = require("./types/clearData");
 async function getClearData(token, genre) {
     let currentLogin = await (0, getCurrentLogin_1.default)(token);
     if (genre) {
@@ -56,7 +57,7 @@ function parseClearData(response) {
         let songNo = Number(new URL('https://donderhiroba.jp/' + $(e).find('a').attr('href')).searchParams.get('song_no'));
         let songClear;
         if (songList.filter(e => e.songNo === songNo).length === 0) {
-            songClear = new SongClearData(title, songNo);
+            songClear = new clearData_1.SongClearData(title, songNo);
             songList.push(songClear);
         }
         else {
@@ -86,7 +87,7 @@ function parseClearData(response) {
                 crown: null,
                 badge: null
             };
-            let diffClear = new DifficultyClearData(difficulty, clear);
+            let diffClear = new clearData_1.DifficultyClearData(difficulty, clear);
             songClear.addDifficulty(diffClear);
             if (!imgSrcParsed || imgSrcParsed[0] === 'none') {
                 return undefined;
@@ -143,20 +144,4 @@ function parseClearData(response) {
         });
     });
     return songList;
-}
-class SongClearData {
-    constructor(title, songNo) {
-        this.difficulty = [];
-        this.title = title;
-        this.songNo = songNo;
-    }
-    addDifficulty(d) {
-        this.difficulty.push(d);
-    }
-}
-class DifficultyClearData {
-    constructor(difficulty, clear) {
-        this.difficulty = difficulty;
-        this.clear = clear;
-    }
 }

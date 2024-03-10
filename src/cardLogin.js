@@ -6,19 +6,8 @@ const hirobaError_1 = require("./hirobaError");
 const getCardList_1 = require("./getCardList");
 async function cardLogin(token, taikoNumber) {
     let list = await (0, getCardList_1.default)(token);
-    let matches = {
-        matched: false,
-        matchIndex: null,
-        matchCard: null
-    };
-    list.forEach((e, i) => {
-        if (e.taikoNumber === taikoNumber) {
-            matches.matched = true;
-            matches.matchIndex = i + 1;
-            matches.matchCard = e;
-        }
-    });
-    if (matches.matched) {
+    let matchedCardIndex = list.findIndex(card => card.taikoNumber === taikoNumber);
+    if (matchedCardIndex !== -1) {
         let response;
         try {
             await (0, axios_1.default)({
@@ -35,7 +24,7 @@ async function cardLogin(token, taikoNumber) {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.183'
                 },
                 data: {
-                    'id_pos': matches.matchIndex,
+                    'id_pos': matchedCardIndex + 1,
                     'mode': 'exec'
                 },
                 maxRedirects: 0
@@ -59,7 +48,7 @@ async function cardLogin(token, taikoNumber) {
         catch (err) {
             throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
         }
-        return matches.matchCard;
+        return list[matchedCardIndex];
     }
     else {
         throw new hirobaError_1.default('', 'NO_MATCHED_CARD');

@@ -35,7 +35,7 @@ async function getScoreData(token, option) {
             let e = songNoss[index];
             await Promise.all(e.map(async (e) => {
                 let songScoreData = await getScoreDataBySongNo(token, e.songNo, e.count);
-                if (songScoreData) {
+                if (songScoreData !== null) {
                     scoreData.push(songScoreData);
                 }
             }));
