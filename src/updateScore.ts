@@ -3,7 +3,7 @@ import HirobaError from "./hirobaError";
 import axios from 'axios';
 import { load } from 'cheerio';
 import getCurrentLogin from "./getCurrentLogin";
-import { CardData } from "./getCardList";
+import { CardData } from "./types/cardData";
 
 export default async function updateScore(token:string):Promise<CardData>{
     let currentLogin = await getCurrentLogin(token);//여기서 로그인 검사 함

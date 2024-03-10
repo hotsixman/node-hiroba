@@ -1,27 +1,17 @@
 import axios from 'axios';
 import createHeader from './createHeader';
 import HirobaError from './hirobaError';
-import getCardList,{type CardData} from './getCardList';
+import getCardList from './getCardList';
+import type { CardData } from './types/cardData';
 
 
 export default async function cardLogin(token:string, taikoNumber:number):Promise<CardData|null>{
     //카드 리스트 수집
     let list:CardData[] = await getCardList(token);//여기서 로그인체크 했음
 
-    let matches:Match = {
-        matched:false,
-        matchIndex:null,
-        matchCard:null
-    }
-    list.forEach((e, i) => {
-        if(e.taikoNumber === taikoNumber){
-            matches.matched = true;
-            matches.matchIndex = i+1;
-            matches.matchCard = e
-        }
-    })
-
-    if(matches.matched){//일치하는 것이 있음
+    let matchedCardIndex = list.findIndex(card => card.taikoNumber === taikoNumber)
+    
+    if(matchedCardIndex !== -1){//일치하는 것이 있음
         let response;
         try{//첫번째 요청
             await axios({
@@ -38,7 +28,7 @@ export default async function cardLogin(token:string, taikoNumber:number):Promis
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.183'
                 },
                 data: {
-                    'id_pos': matches.matchIndex,
+                    'id_pos': matchedCardIndex+1,
                     'mode': 'exec'
                 },
                 maxRedirects: 0
@@ -65,15 +55,9 @@ export default async function cardLogin(token:string, taikoNumber:number):Promis
             throw new HirobaError(err.message, 'CANNOT_CONNECT');
         }
         
-        return matches.matchCard
+        return list[matchedCardIndex]
     }
     else{//일치하는 것이 없음
         throw new HirobaError('', 'NO_MATCHED_CARD')
     }
-}
-
-interface Match{
-    matched:boolean,
-    matchIndex: null | Number
-    matchCard:CardData | null
 }

@@ -1,6 +1,7 @@
 import isLogined from "./isLogined";
 import createHeader from "./createHeader";
 import HirobaError from "./hirobaError";
+import type { CardData } from "./types/cardData";
 import axios from 'axios';
 import {load} from 'cheerio';
 
@@ -35,10 +36,4 @@ export default async function getCardList(token:string):Promise<CardData[]>{
     else{
         throw new HirobaError('', 'NOT_LOGINED');
     }
-}
-
-export interface CardData{
-    taikoNumber: number;
-    nickname: string;
-    myDon: string | undefined;
 }
