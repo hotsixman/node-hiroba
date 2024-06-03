@@ -1,7 +1,9 @@
-import cardList from "./request/cardList";
+import requestCardList from "./request/requestCardList.js";
+import { requestClearData } from "./request/requestClearData.js";
 
 const request = {
-    cardList
+    requestCardList,
+    requestClearData
 }
 
 export default request;

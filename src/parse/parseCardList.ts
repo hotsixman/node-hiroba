@@ -1,7 +1,7 @@
 import { load } from "cheerio";
-import { CardData } from "../types/cardData";
+import { CardData } from "../types/cardData.js";
 
-export default function cardList(body: string): CardData[] {
+export default function parseCardList(body: string): CardData[] {
     let $ = load(body);
 
     let cardList: CardData[] = [];

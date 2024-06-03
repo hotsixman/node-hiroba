@@ -1,4 +1,4 @@
-import { CardData } from "./cardData";
+import { CardData } from "./cardData.js";
 
 export interface SongScoreDataInterface {
     title: string;

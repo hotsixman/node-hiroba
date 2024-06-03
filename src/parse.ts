@@ -1,7 +1,9 @@
-import cardList from "./parse/cardList";
+import parseCardList from "./parse/parseCardList.js";
+import parseClearData from "./parse/parseClearData.js";
 
 const parse =  {
-    cardList
+    parseCardList,
+    parseClearData
 }
 
 export default parse;

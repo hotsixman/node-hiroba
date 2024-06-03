@@ -1,7 +1,7 @@
-import createHeader from "../createHeader";
-import HirobaError from "../hirobaError";
+import createHeader from "../createHeader.js";
+import HirobaError from "../hirobaError.js";
 import axios from 'axios';
-import checkNamcoLogin from "../parse/checkNamcoLogin";
+import checkNamcoLogin from "../parse/checkNamcoLogin.js";
 
 /**
  * 
@@ -9,7 +9,7 @@ import checkNamcoLogin from "../parse/checkNamcoLogin";
  * @returns card datas
  * You should 'Card Login' after use this function. If not, the token will be expires;
  */
-export default async function cardList(token:string): Promise<string> {
+export default async function requestCardList(token:string): Promise<string> {
     let response;
     try{//login_select로 요청 보내기
         response = await axios({
@@ -19,7 +19,8 @@ export default async function cardList(token:string): Promise<string> {
         });
     }
     catch(err:any){//네트워크 에러
-        throw new HirobaError(err.message, 'CANNOT_CONNECT');
+        console.warn(err.message);
+        throw new HirobaError('CANNOT_CONNECT');
     }
 
     //로그인이 되어 있는지 체크
@@ -27,6 +28,6 @@ export default async function cardList(token:string): Promise<string> {
         return response.data;
     }
     else{
-        throw new HirobaError('', 'NOT_LOGINED');
+        throw new HirobaError('NOT_NAMCO_LOGINED');
     }
 }
