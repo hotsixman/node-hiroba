@@ -1,11 +1,7 @@
-import axios from "axios";
-import createHeader from "../createHeader.js";
-import checkLogin from "../parse/checkLogin.js";
+import request from "../request.js";
+import parse from "../parse.js";
 
-export default async function getCurrentLogin(token:string): Promise<boolean> {
-    const response = await axios.get("https://donderhiroba.jp", {
-        headers: createHeader(`_token_v2=${token}`)
-    })
-
-    return checkLogin(response);
+export default async function getCurrentLogin(token:string){
+    const body = await request.requestCurrentLogin(token);
+    return parse.parseCurrentLogin(body);
 }

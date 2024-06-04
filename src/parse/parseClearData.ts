@@ -1,8 +1,8 @@
 import { load } from 'cheerio';
-import { type SongClearData, type Clear, Difficulty } from '../types/clearData.js';
+import type { Clear, Difficulty, ClearData } from '../types/clearData.js';
 
-export default function parseClearData(bodys: string[]): SongClearData[] {
-    const songClearDatas: SongClearData[] = [];
+export default function parseClearData(bodys: string[]): ClearData[] {
+    const songClearDatas: ClearData[] = [];
 
     bodys.forEach(body => {
         let $ = load(body);
@@ -13,7 +13,7 @@ export default function parseClearData(bodys: string[]): SongClearData[] {
 
             if (!songNo) return;
 
-            let songClear: SongClearData;
+            let songClear: ClearData;
             const foundClearData = songClearDatas.find(clearData => clearData.songNo === songNo);
             if (foundClearData) {//중복 없음
                 songClear = foundClearData;

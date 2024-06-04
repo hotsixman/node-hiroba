@@ -1,33 +1,33 @@
-import createHeader from "./createHeader";
-import HirobaError from "./hirobaError";
-import axios from 'axios';
-import { load } from 'cheerio';
-import getCurrentLogin from "./getCurrentLogin";
-import { CardData } from "./types/cardData";
+import HirobaError from "../hirobaError.js";
+import getCurrentLogin from "./getCurrentLogin.js";
+import axios from "axios";
+import createHeader from "../createHeader.js";
+import { load } from "cheerio";
 
-export default async function updateScore(token:string):Promise<CardData>{
-    let currentLogin = await getCurrentLogin(token);//여기서 로그인 검사 함
+export default async function updateScore(token: string): Promise<boolean> {
+    if (!await getCurrentLogin(token)) throw new HirobaError('NOT_LOGINED');
 
     //첫번째 요청
     let response;
-    try{
+    try {
         response = await axios(({
             method: 'get',
             url: 'https://donderhiroba.jp/score_list.php',
             headers: createHeader('_token_v2=' + token)
         }));
     }
-    catch(err:any){
-        throw new HirobaError(err.message, 'CANNOT_CONNECT');
+    catch (err: any) {
+        console.warn(err.message,);
+        throw new HirobaError('CANNOT_CONNECT');
     }
 
     //tckt값 얻기
     let $ = load(response.data);
     let tckt = $('#_tckt').val();
-    let data = { '_tckt': '1' };
+    let data = { '_tckt': tckt };
 
     //두번째 요청
-    try{
+    try {
         response = await axios({
             method: 'get',
             url: 'https://donderhiroba.jp/ajax/update_score.php?_tckt=1&_=1690640091979',
@@ -45,8 +45,9 @@ export default async function updateScore(token:string):Promise<CardData>{
             data: data
         })
     }
-    catch(err:any){
-        throw new HirobaError(err.message, 'CANNOT_CONNECT');
+    catch (err: any) {
+        console.warn(err.message);
+        throw new HirobaError('CANNOT_CONNECT');
     }
 
     if (response.data.result == 0) {
@@ -55,15 +56,15 @@ export default async function updateScore(token:string):Promise<CardData>{
             url: 'https://donderhiroba.jp/score_list.php',
             headers: createHeader('_token_v2=' + token)
         })
-        return currentLogin;
+        return true;
     }
     else if (response.data.result == 705) {
         return await updateScore(token);
     }
     else if (response.data.result == 901) {
-        throw new HirobaError('', 'UNKNOWN_ERROR')
+        throw new HirobaError('UNKNOWN_ERROR')
     }
     else {
-        throw new HirobaError('', 'UNKNOWN_ERROR')
+        throw new HirobaError('UNKNOWN_ERROR')
     }
 }

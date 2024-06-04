@@ -4,9 +4,7 @@ import getCurrentLogin from "../func/getCurrentLogin.js";
 import HirobaError from "../hirobaError.js";
 import checkLogin from "../parse/checkLogin.js";
 
-export async function requestClearData(token: string, genre?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8): Promise<string[]> {
-    if (!await getCurrentLogin(token)) throw new HirobaError("NOT_LOGINED");
-
+export default async function requestClearData(token: string, genre?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8): Promise<string[]> {
     if (genre) {
         try {
             const response = await axios({
