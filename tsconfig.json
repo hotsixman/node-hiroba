@@ -1,18 +1,27 @@
 {
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "sourceMap": false,
+    "module": "NodeNext",
+    "target": "ESNext",
+    "allowJs": true,
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true
+  },
+  "ts-node": {
+    "esm": true,
     "compilerOptions": {
-        "noImplicitAny": true,
-        "sourceMap": false,
-        "module": "CommonJS",
-        "target": "ES2021",
-        "allowJs": true,
-        "moduleResolution": "node",
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "removeComments": true
+      "noImplicitAny": true,
+      "sourceMap": false,
+      "module": "NodeNext",
+      "target": "ESNext",
+      "allowJs": true,
+      "moduleResolution": "NodeNext",
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "removeComments": true
     },
-    "ts-node": {
-        "compilerOptions": {
-          "module": "commonjs"
-        }
-      }
+  }
 }

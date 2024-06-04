@@ -1,8 +1,8 @@
 import axios from 'axios';
-import createHeader from './createHeader';
-import HirobaError from './hirobaError';
-import getCardList from './getCardList';
-import type { CardData } from './types/cardData';
+import createHeader from '../createHeader.js';
+import HirobaError from '../hirobaError.js';
+import getCardList from './getCardList.js';
+import type { CardData } from '../types/cardData.js';
 
 
 export default async function cardLogin(token:string, taikoNumber:number):Promise<CardData|null>{
@@ -39,7 +39,8 @@ export default async function cardLogin(token:string, taikoNumber:number):Promis
                 response = err.response;
             }
             else{
-                throw new HirobaError(err.message, 'CANNOT_CONNECT');
+                console.warn(err.message);
+                throw new HirobaError('CANNOT_CONNECT');
             }
         }
 
@@ -52,12 +53,13 @@ export default async function cardLogin(token:string, taikoNumber:number):Promis
             })
         }
         catch (err:any) {
-            throw new HirobaError(err.message, 'CANNOT_CONNECT');
+            console.warn(err.message);
+            throw new HirobaError('CANNOT_CONNECT');
         }
         
         return list[matchedCardIndex]
     }
     else{//일치하는 것이 없음
-        throw new HirobaError('', 'NO_MATCHED_CARD')
+        throw new HirobaError('NO_MATCHED_CARD')
     }
 }
