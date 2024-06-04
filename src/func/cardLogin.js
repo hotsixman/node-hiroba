@@ -1,16 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = require("axios");
-const createHeader_1 = require("./createHeader");
-const hirobaError_1 = require("./hirobaError");
-const getCardList_1 = require("./getCardList");
-async function cardLogin(token, taikoNumber) {
-    let list = await (0, getCardList_1.default)(token);
+import axios from 'axios';
+import createHeader from '../createHeader.js';
+import HirobaError from '../hirobaError.js';
+import getCardList from './getCardList.js';
+export default async function cardLogin(token, taikoNumber) {
+    let list = await getCardList(token);
     let matchedCardIndex = list.findIndex(card => card.taikoNumber === taikoNumber);
     if (matchedCardIndex !== -1) {
         let response;
         try {
-            await (0, axios_1.default)({
+            await axios({
                 method: 'post',
                 url: 'https://donderhiroba.jp/login_select.php',
                 headers: {
@@ -35,23 +33,24 @@ async function cardLogin(token, taikoNumber) {
                 response = err.response;
             }
             else {
-                throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
+                console.warn(err.message);
+                throw new HirobaError('CANNOT_CONNECT');
             }
         }
         try {
-            await (0, axios_1.default)({
+            await axios({
                 method: 'get',
                 url: response.headers.location,
-                headers: (0, createHeader_1.default)('_token_v2=' + token)
+                headers: createHeader('_token_v2=' + token)
             });
         }
         catch (err) {
-            throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
+            console.warn(err.message);
+            throw new HirobaError('CANNOT_CONNECT');
         }
         return list[matchedCardIndex];
     }
     else {
-        throw new hirobaError_1.default('', 'NO_MATCHED_CARD');
+        throw new HirobaError('NO_MATCHED_CARD');
     }
 }
-exports.default = cardLogin;

@@ -1,16 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const cheerio_1 = require("cheerio");
-function isLogined(response) {
+import { load } from 'cheerio';
+export default function checkLogin(response) {
     if (!response?.data) {
         return false;
     }
-    let $ = (0, cheerio_1.load)(response.data);
+    let $ = load(response.data);
     if ($('form#login_form').length !== 0) {
         return false;
     }
     if ($('h1').html()?.trim() == 'カード登録 (1枚登録中)') {
-        return true;
+        return false;
     }
     if (!response?.config?.url) {
         return false;
@@ -20,4 +18,3 @@ function isLogined(response) {
     }
     return true;
 }
-exports.default = isLogined;

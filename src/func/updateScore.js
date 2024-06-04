@@ -1,28 +1,28 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const createHeader_1 = require("./createHeader");
-const hirobaError_1 = require("./hirobaError");
-const axios_1 = require("axios");
-const cheerio_1 = require("cheerio");
-const getCurrentLogin_1 = require("./getCurrentLogin");
-async function updateScore(token) {
-    let currentLogin = await (0, getCurrentLogin_1.default)(token);
+import HirobaError from "../hirobaError.js";
+import getCurrentLogin from "./getCurrentLogin.js";
+import axios from "axios";
+import createHeader from "../createHeader.js";
+import { load } from "cheerio";
+export default async function updateScore(token) {
+    if (!await getCurrentLogin(token))
+        throw new HirobaError('NOT_LOGINED');
     let response;
     try {
-        response = await (0, axios_1.default)(({
+        response = await axios(({
             method: 'get',
             url: 'https://donderhiroba.jp/score_list.php',
-            headers: (0, createHeader_1.default)('_token_v2=' + token)
+            headers: createHeader('_token_v2=' + token)
         }));
     }
     catch (err) {
-        throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
+        console.warn(err.message);
+        throw new HirobaError('CANNOT_CONNECT');
     }
-    let $ = (0, cheerio_1.load)(response.data);
+    let $ = load(response.data);
     let tckt = $('#_tckt').val();
-    let data = { '_tckt': '1' };
+    let data = { '_tckt': tckt };
     try {
-        response = await (0, axios_1.default)({
+        response = await axios({
             method: 'get',
             url: 'https://donderhiroba.jp/ajax/update_score.php?_tckt=1&_=1690640091979',
             headers: {
@@ -40,24 +40,24 @@ async function updateScore(token) {
         });
     }
     catch (err) {
-        throw new hirobaError_1.default(err.message, 'CANNOT_CONNECT');
+        console.warn(err.message);
+        throw new HirobaError('CANNOT_CONNECT');
     }
     if (response.data.result == 0) {
-        await (0, axios_1.default)({
+        await axios({
             method: 'get',
             url: 'https://donderhiroba.jp/score_list.php',
-            headers: (0, createHeader_1.default)('_token_v2=' + token)
+            headers: createHeader('_token_v2=' + token)
         });
-        return currentLogin;
+        return true;
     }
     else if (response.data.result == 705) {
         return await updateScore(token);
     }
     else if (response.data.result == 901) {
-        throw new hirobaError_1.default('', 'UNKNOWN_ERROR');
+        throw new HirobaError('UNKNOWN_ERROR');
     }
     else {
-        throw new hirobaError_1.default('', 'UNKNOWN_ERROR');
+        throw new HirobaError('UNKNOWN_ERROR');
     }
 }
-exports.default = updateScore;

@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function createHeader(cookie) {
+export default function createHeader(cookie) {
     if (cookie) {
         return ({
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -21,4 +19,3 @@ function createHeader(cookie) {
         });
     }
 }
-exports.default = createHeader;

@@ -1,9 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class HirobaError extends Error {
-    constructor(message, code) {
-        super(message);
+export default class HirobaError extends Error {
+    code;
+    constructor(code) {
+        super(code);
         this.code = code;
     }
 }
-exports.default = HirobaError;
