@@ -1,0 +1,1 @@
+{"version":3,"file":"hirobaError.d.ts","sourceRoot":"","sources":["../src/hirobaError.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,eAAe,EAAE,MAAM,uBAAuB,CAAC;AAExD,MAAM,CAAC,OAAO,OAAO,WAAY,SAAQ,KAAK;IAC1C,IAAI,EAAC,MAAM,CAAC;gBAEA,IAAI,EAAC,eAAe;CAInC"}
