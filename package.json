@@ -2,10 +2,18 @@
   "name": "node-hiroba",
   "version": "1.4.0",
   "description": "",
-  "main": "index.js",
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./esm/index.js",
+      "require": "./cjs/index.js"
+    }
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "npm run build:cjs & npm run build:esm",
+    "build:cjs": "tsc --p ./cjs/tsconfig.json",
+    "build:esm": "tsc --p ./esm/tsconfig.json"
   },
   "keywords": [],
   "author": "hotsixman",
@@ -18,6 +26,5 @@
   "devDependencies": {
     "ts-loader": "^9.5.1",
     "typescript": "^5.2.2"
-  },
-  "type": "module"
+  }
 }
