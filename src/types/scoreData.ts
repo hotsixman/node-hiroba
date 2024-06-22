@@ -2,7 +2,7 @@ import type { Difficulty } from './clearData.js';
 
 export interface ScoreData {
     title: string;
-    songNo: number;
+    songNo: string;
     difficulty: Partial<Record<Difficulty, DifficultyScoreData>>;
 }
 
