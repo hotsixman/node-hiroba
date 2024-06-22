@@ -2,7 +2,7 @@ import { load } from "cheerio";
 import type { DifficultyScoreData, ScoreData } from "../types/scoreData.js";
 import { Difficulty } from "../types/clearData.js";
 
-export default function parseScoreData(data: [string[], number]): ScoreData | null {
+export default function parseScoreData(data: [string[], string]): ScoreData | null {
     const [bodies, songNo] = data;
 
     const diffs: Difficulty[] = ['easy', 'normal', 'hard', 'oni', 'ura'];
