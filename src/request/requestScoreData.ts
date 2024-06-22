@@ -4,15 +4,15 @@ import createHeader from "../createHeader.js";
 import axios from "axios";
 import checkLogin from "../parse/checkLogin.js";
 
-export default async function requestScoreData(token: string, songNos: number[]): Promise<[string[], number][]> {
-    const returns: [string[], number][] = [];
+export default async function requestScoreData(token: string, songNos: string[]): Promise<[string[], string][]> {
+    const returns: [string[], string][] = [];
     for (const songNo of songNos) {
         returns.push(await requestScoreDataBySongNo(token, songNo));
     }
     return returns;
 }
 
-async function requestScoreDataBySongNo(token: string, songNo: number): Promise<[string[], number]> {
+async function requestScoreDataBySongNo(token: string, songNo: string): Promise<[string[], string]> {
     let diffs = [1, 2, 3, 4, 5];
     const bodies: string[] = [];
 
