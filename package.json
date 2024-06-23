@@ -1,6 +1,6 @@
 {
   "name": "node-hiroba",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "",
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
@@ -8,7 +8,8 @@
     ".": {
       "import": "./esm/index.js",
       "require": "./cjs/index.js"
-    }
+    },
+    "./types": "./src/types/types.ts"
   },
   "scripts": {
     "build": "npm run build:cjs & npm run build:esm",
