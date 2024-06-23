@@ -21,7 +21,7 @@ export default function checkNamcoLogin(response: AxiosResponse): boolean {
     if(new URL(response.config.url).origin !== 'https://donderhiroba.jp'){//동더히로바가 아님
         return false;
     }
-    if(!$('h1').html()?.trim() || !/^カード登録 \([0-9]枚登録中\)$/.test($('h1').html().trim() as string)){//카드 선택창이 아님
+    if(!$('h1').html()?.trim() || !/^カード登録 \([0-9]枚登録中\)$/.test($('h1').html()?.trim() as string)){//카드 선택창이 아님
         return false;
     }
 
