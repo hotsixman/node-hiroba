@@ -1,4 +1,4 @@
-import type { Difficulty } from './clearData.js';
+import type { Difficulty, Crown, Badge } from './clearData.js';
 
 export interface ScoreData {
     title: string;
@@ -7,8 +7,8 @@ export interface ScoreData {
 }
 
 export interface DifficultyScoreData {
-    crown: string | null;
-    badge: string | null;
+    crown: Crown;
+    badge: Badge;
     score: number;
     ranking: number;
     good: number;
@@ -25,5 +25,3 @@ export interface Count {
     fullcombo: number
     donderfullcombo: number
 }
-
-export const a = 1
