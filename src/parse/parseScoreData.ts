@@ -1,6 +1,6 @@
 import { load } from "cheerio";
 import type { DifficultyScoreData, ScoreData } from "../types/scoreData.js";
-import { Difficulty } from "../types/clearData.js";
+import { Crown, Difficulty } from "../types/clearData.js";
 
 export default function parseScoreData(data: [string[], string]): ScoreData | null {
     const [bodies, songNo] = data;
@@ -46,7 +46,7 @@ export default function parseScoreData(data: [string[], string]): ScoreData | nu
         }
 
         if ($('.scoreDetailStatus').find('.crown').length !== 0) {
-            difficultyScoreData.crown = getCrown($('.scoreDetailStatus').find('.crown').attr('src')?.replace('image/sp/640/crown_large_', '').replace('_640.png', ''));
+            difficultyScoreData.crown = getCrown($('.scoreDetailStatus').find('.crown').attr('src')?.replace('image/sp/640/crown_large_', '').replace('_640.png', '')) as Crown;
             difficultyScoreData.badge = getBadge($('.scoreDetailStatus').find('.best_score_icon'));
             difficultyScoreData.score = Number($($('.high_score')[0]).text().replace(/[^0-9]/g, ''));
             difficultyScoreData.ranking = Number($('.ranking').text().replace(/[^0-9]/g, ''))
