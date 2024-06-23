@@ -7,7 +7,7 @@ export default function checkLogin(response) {
     if ($('form#login_form').length !== 0) {
         return false;
     }
-    if ($('h1').html()?.trim() == 'カード登録 (1枚登録中)') {
+    if ($('h1').html()?.trim() && /^カード登録 \([0-9]枚登録中\)$/.test($('h1').html()?.trim())) {
         return false;
     }
     if (!response?.config?.url) {
