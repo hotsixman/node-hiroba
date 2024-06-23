@@ -1,2 +1,2 @@
-export const a = 1;
+export {};
 //# sourceMappingURL=scoreData.js.map

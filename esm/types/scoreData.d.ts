@@ -1,12 +1,12 @@
-import type { Difficulty } from './clearData.js';
+import type { Difficulty, Crown, Badge } from './clearData.js';
 export interface ScoreData {
     title: string;
     songNo: string;
     difficulty: Partial<Record<Difficulty, DifficultyScoreData>>;
 }
 export interface DifficultyScoreData {
-    crown: string | null;
-    badge: string | null;
+    crown: Crown;
+    badge: Badge;
     score: number;
     ranking: number;
     good: number;
@@ -22,5 +22,4 @@ export interface Count {
     fullcombo: number;
     donderfullcombo: number;
 }
-export declare const a = 1;
 //# sourceMappingURL=scoreData.d.ts.map
