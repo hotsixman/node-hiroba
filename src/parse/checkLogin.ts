@@ -15,7 +15,7 @@ export default function checkLogin(response: AxiosResponse): boolean {
     if ($('form#login_form').length !== 0) {//loginform있음
         return false;
     }
-    if (/^カード登録 \([0-9]枚登録中\)$/.test($('h1').html()?.trim())) {//카드 선택창일 때
+    if ($('h1').html()?.trim() && /^カード登録 \([0-9]枚登録中\)$/.test($('h1').html()?.trim())) {//카드 선택창일 때
         return false;
     }
     if (!response?.config?.url) {//url이 없음
