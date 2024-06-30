@@ -1,11 +1,11 @@
 # getCardList
 
-## explanation
+## Explanation
 Get card list of logined bandai namco id.
 
 :warning: **This function will occur card-logout.**
 
-## usage
+## Usage
 ```ts
 async function getCardList(token:string):Promise<CardData[]>
 
@@ -15,7 +15,7 @@ export interface CardData{
     myDon: string | undefined;//your my don image link
 }
 ```
-## example
+## Example
 ```ts
 let cardList = await hiroba.getCardList('exampletoken');
 /*
@@ -33,6 +33,6 @@ let cardList = await hiroba.getCardList('exampletoken');
 ]
 */
 ```
-## errors
-- `CANNOT_CONNECT`: axios network error
-- `NOT_LOGINED`: not logined bandai namco id.
+## Errors
+- `CANNOT_CONNECT`
+- `NOT_LOGINED`
