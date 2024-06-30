@@ -11,6 +11,6 @@ async function hiroba.getSessionToken(email:string,password:string):Promise<stri
 ```ts
 let token = await hiroba.getSessionToken('example@example.com', 'example');
 ```
-## 에러
+## Errors
 - `CANNOT_CONNECT`
 - `INVALID_ID_PASSWORD`
