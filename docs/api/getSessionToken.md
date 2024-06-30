@@ -3,7 +3,7 @@
 ## Description
 You can use this function to get `token` to get data from donderhiroba. 
 
-## Parameters 
+## Usage
 ```ts
 async function hiroba.getSessionToken(email:string,password:string):Promise<string>
 ```
