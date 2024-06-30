@@ -1,13 +1,13 @@
 # getSessionToken
 
-## 설명
-이메일과 비밀번호를 인수로 받아, 동더히로바에서 세션 키로 사용되는 _token_v2 쿠기 값을 반환합니다.
+## Description
+You can use this function to get `token` to get data from donderhiroba. 
 
-## 파라미터
+## Parameters 
 ```ts
 async function hiroba.getSessionToken(email:string,password:string):Promise<string>
 ```
-## 예시
+## Example
 ```ts
 let token = await hiroba.getSessionToken('example@example.com', 'example');
 ```
