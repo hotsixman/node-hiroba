@@ -8,7 +8,7 @@ import { type CardData } from "../types/cardData.js";
  * @returns card datas
  * You should 'Card Login' after use this function. If not, the token will be expires;
  */
-export default async function getCardList(token:string): Promise<CardData[]> {
+export default async function getCardList(token: string | null): Promise<CardData[]> {
     const body = await request.requestCardList(token);
     return parse.parseCardList(body);
 }

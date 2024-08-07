@@ -3,13 +3,13 @@ import HirobaError from "../hirobaError.js";
 import createHeader from "../createHeader.js";
 import checkLogin from "../parse/checkLogin.js";
 
-export default async function requestCurrentLogin(token: string) {
+export default async function requestCurrentLogin(token: string | null) {
     let response;
     try {
         response = await axios({
             method: 'get',
             url: 'https://donderhiroba.jp/',
-            headers: createHeader(`_token_v2=${token}`)
+            headers: token ? createHeader(`_token_v2=${token}`) : createHeader()
         })
     }
     catch (err: any) {//에러
