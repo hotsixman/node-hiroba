@@ -1,29 +1,29 @@
 import { load } from "cheerio";
-import type { DifficultyScoreData, ScoreData } from "../types/scoreData.js";
+import type { DifficultyScoreData, ScoreData, ScoreResponseData } from "../types/scoreData.js";
 import { Crown, Difficulty } from "../types/clearData.js";
 
-export default function parseScoreData(data: [string[], string]): ScoreData | null {
-    const [bodies, songNo] = data;
-
-    const diffs: Difficulty[] = ['easy', 'normal', 'hard', 'oni', 'ura'];
-
+export default function parseScoreData(data: ScoreResponseData): ScoreData | null {
     const scoreData: ScoreData = {
         title: '',
-        songNo,
+        songNo: data.songNo,
         difficulty: {}
     }
 
-    if (load(bodies[0])('#content').text().replaceAll('\n', '').replaceAll('\t', '') === '指定されたページは存在しません。') {
+    if (load(Object.values(data.body).filter(e => e !== null)[0])('#content').text().replaceAll('\n', '').replaceAll('\t', '') === '指定されたページは存在しません。') {
         return null;
     }
 
-    bodies.forEach((body, index) => {
-        const $ = load(body);
-        if ($('#content').text().replaceAll('\n', '').replaceAll('\t', '') === '指定されたページは存在しません。') {
-            return null;
+    Object.entries(data.body).forEach(([difficulty, body]) => {
+        if (body === null) {
+            return;
         }
 
-        if (index === 0) {
+        const $ = load(body);
+        if ($('#content').text().replaceAll('\n', '').replaceAll('\t', '') === '指定されたページは存在しません。') {
+            return;
+        }
+
+        if(scoreData.title === ''){
             scoreData.title = $('.songNameTitleScore').text().replaceAll('\n', '').replaceAll('\t', '');
         }
 
@@ -61,7 +61,7 @@ export default function parseScoreData(data: [string[], string]): ScoreData | nu
             difficultyScoreData.count.donderfullcombo = Number($($('.dondafull_combo_cnt')[0]).text().replace(/[^0-9]/g, ''));
         }
 
-        scoreData.difficulty[diffs[index]] = difficultyScoreData;
+        scoreData.difficulty[difficulty as Difficulty] = difficultyScoreData;
     })
 
     return scoreData;

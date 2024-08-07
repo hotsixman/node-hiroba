@@ -6,6 +6,11 @@ export interface ScoreData {
     difficulty: Partial<Record<Difficulty, DifficultyScoreData>>;
 }
 
+export interface ScoreResponseData {
+    songNo: string;
+    body: Record<Difficulty, string | null>;
+}
+
 export interface DifficultyScoreData {
     crown: Crown;
     badge: Badge;
