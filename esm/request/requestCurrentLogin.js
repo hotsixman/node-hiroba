@@ -8,7 +8,7 @@ export default async function requestCurrentLogin(token) {
         response = await axios({
             method: 'get',
             url: 'https://donderhiroba.jp/',
-            headers: createHeader(`_token_v2=${token}`)
+            headers: token ? createHeader(`_token_v2=${token}`) : createHeader()
         });
     }
     catch (err) {

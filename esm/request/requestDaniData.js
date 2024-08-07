@@ -4,15 +4,15 @@ import createHeader from "../createHeader.js";
 import checkLogin from "../parse/checkLogin.js";
 export default async function requestDaniData(token, daniNo) {
     if (daniNo !== undefined) {
-        return [await requestDaniDataByDaniNo(token, daniNo)];
+        return (await requestDaniDataByDaniNo(token, daniNo));
     }
     else {
         const daniNos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-        const bodies = [];
+        const datas = [];
         await Promise.all(daniNos.map(async (daniNo) => {
-            bodies.push(await requestDaniDataByDaniNo(token, daniNo));
+            datas.push(await requestDaniDataByDaniNo(token, daniNo));
         }));
-        return bodies;
+        return datas;
     }
 }
 async function requestDaniDataByDaniNo(token, daniNo) {
@@ -21,7 +21,7 @@ async function requestDaniDataByDaniNo(token, daniNo) {
         response = await axios({
             method: 'get',
             url: 'https://donderhiroba.jp/dan_detail.php?dan=' + daniNo,
-            headers: createHeader('_token_v2=' + token)
+            headers: token ? createHeader('_token_v2=' + token) : createHeader()
         });
     }
     catch (err) {
@@ -30,6 +30,9 @@ async function requestDaniDataByDaniNo(token, daniNo) {
     }
     if (!checkLogin(response))
         throw new HirobaError('NOT_LOGINED');
-    return [response.data, daniNo];
+    return {
+        daniNo,
+        body: response.data
+    };
 }
 //# sourceMappingURL=requestDaniData.js.map

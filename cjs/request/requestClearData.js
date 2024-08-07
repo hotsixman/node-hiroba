@@ -13,7 +13,7 @@ async function requestClearData(token, genre) {
             const response = await (0, axios_1.default)({
                 method: 'get',
                 url: 'https://donderhiroba.jp/score_list.php?genre=' + genre,
-                headers: (0, createHeader_js_1.default)('_token_v2=' + token)
+                headers: token ? (0, createHeader_js_1.default)('_token_v2=' + token) : (0, createHeader_js_1.default)()
             });
             if (!(0, checkLogin_js_1.default)(response))
                 throw new hirobaError_js_1.default('NOT_LOGINED');
@@ -32,7 +32,7 @@ async function requestClearData(token, genre) {
                 const response = await (0, axios_1.default)({
                     method: 'get',
                     url: 'https://donderhiroba.jp/score_list.php?genre=' + genre,
-                    headers: (0, createHeader_js_1.default)('_token_v2=' + token)
+                    headers: token ? (0, createHeader_js_1.default)('_token_v2=' + token) : (0, createHeader_js_1.default)()
                 });
                 if (!(0, checkLogin_js_1.default)(response))
                     throw new hirobaError_js_1.default('NOT_LOGINED');

@@ -6,6 +6,10 @@ export interface DaniData {
     bestScore: BestScore;
     bestConditions: Condition[];
 }
+export interface DaniResponseData {
+    daniNo: DaniNo;
+    body: string;
+}
 export interface BestScore {
     score: number;
     good: number;

@@ -1,1 +1,1 @@
-{"version":3,"file":"getCardList.d.ts","sourceRoot":"","sources":["../../src/func/getCardList.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,KAAK,QAAQ,EAAE,MAAM,sBAAsB,CAAC;AAQrD,wBAA8B,WAAW,CAAC,KAAK,EAAC,MAAM,GAAG,OAAO,CAAC,QAAQ,EAAE,CAAC,CAG3E"}
+{"version":3,"file":"getCardList.d.ts","sourceRoot":"","sources":["../../src/func/getCardList.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,KAAK,QAAQ,EAAE,MAAM,sBAAsB,CAAC;AAQrD,wBAA8B,WAAW,CAAC,KAAK,EAAE,MAAM,GAAG,IAAI,GAAG,OAAO,CAAC,QAAQ,EAAE,CAAC,CAGnF"}

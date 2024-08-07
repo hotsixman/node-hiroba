@@ -2,22 +2,23 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const cheerio_1 = require("cheerio");
 function parseScoreData(data) {
-    const [bodies, songNo] = data;
-    const diffs = ['easy', 'normal', 'hard', 'oni', 'ura'];
     const scoreData = {
         title: '',
-        songNo,
+        songNo: data.songNo,
         difficulty: {}
     };
-    if ((0, cheerio_1.load)(bodies[0])('#content').text().replaceAll('\n', '').replaceAll('\t', '') === '指定されたページは存在しません。') {
+    if ((0, cheerio_1.load)(Object.values(data.body).filter(e => e !== null)[0])('#content').text().replaceAll('\n', '').replaceAll('\t', '') === '指定されたページは存在しません。') {
         return null;
     }
-    bodies.forEach((body, index) => {
+    Object.entries(data.body).forEach(([difficulty, body]) => {
+        if (body === null) {
+            return;
+        }
         const $ = (0, cheerio_1.load)(body);
         if ($('#content').text().replaceAll('\n', '').replaceAll('\t', '') === '指定されたページは存在しません。') {
-            return null;
+            return;
         }
-        if (index === 0) {
+        if (scoreData.title === '') {
             scoreData.title = $('.songNameTitleScore').text().replaceAll('\n', '').replaceAll('\t', '');
         }
         const difficultyScoreData = {
@@ -52,7 +53,7 @@ function parseScoreData(data) {
             difficultyScoreData.count.fullcombo = Number($($('.full_combo_cnt')[0]).text().replace(/[^0-9]/g, ''));
             difficultyScoreData.count.donderfullcombo = Number($($('.dondafull_combo_cnt')[0]).text().replace(/[^0-9]/g, ''));
         }
-        scoreData.difficulty[diffs[index]] = difficultyScoreData;
+        scoreData.difficulty[difficulty] = difficultyScoreData;
     });
     return scoreData;
 }

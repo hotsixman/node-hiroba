@@ -8,7 +8,7 @@ export default async function requestCardList(token) {
         response = await axios({
             method: 'get',
             url: 'https://donderhiroba.jp/login_select.php',
-            headers: createHeader(`_token_v2=${token}`)
+            headers: token ? createHeader(`_token_v2=${token}`) : createHeader()
         });
     }
     catch (err) {

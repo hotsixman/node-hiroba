@@ -16,7 +16,7 @@ async function updateScore(token) {
         response = await (0, axios_1.default)(({
             method: 'get',
             url: 'https://donderhiroba.jp/score_list.php',
-            headers: (0, createHeader_js_1.default)('_token_v2=' + token)
+            headers: token ? (0, createHeader_js_1.default)('_token_v2=' + token) : (0, createHeader_js_1.default)()
         }));
     }
     catch (err) {
@@ -36,7 +36,7 @@ async function updateScore(token) {
                 'Accept-Language': 'ko,en;q=0.9,en-US;q=0.8',
                 'Content-Length': '7',
                 'Origin': 'https://donderhiroba.jp',
-                Cookie: '_token_v2=' + token,
+                Cookie: token ? ('_token_v2=' + token) : undefined,
                 Referer: 'https://donderhiroba.jp/score_list.php',
                 'X-Requested-With': 'XMLHttpRequest',
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.183'
@@ -52,7 +52,7 @@ async function updateScore(token) {
         await (0, axios_1.default)({
             method: 'get',
             url: 'https://donderhiroba.jp/score_list.php',
-            headers: (0, createHeader_js_1.default)('_token_v2=' + token)
+            headers: token ? (0, createHeader_js_1.default)('_token_v2=' + token) : (0, createHeader_js_1.default)()
         });
         return true;
     }

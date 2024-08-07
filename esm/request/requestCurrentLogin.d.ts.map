@@ -1,1 +1,1 @@
-{"version":3,"file":"requestCurrentLogin.d.ts","sourceRoot":"","sources":["../../src/request/requestCurrentLogin.ts"],"names":[],"mappings":"AAKA,wBAA8B,mBAAmB,CAAC,KAAK,EAAE,MAAM,mBAiB9D"}
+{"version":3,"file":"requestCurrentLogin.d.ts","sourceRoot":"","sources":["../../src/request/requestCurrentLogin.ts"],"names":[],"mappings":"AAKA,wBAA8B,mBAAmB,CAAC,KAAK,EAAE,MAAM,GAAG,IAAI,mBAiBrE"}

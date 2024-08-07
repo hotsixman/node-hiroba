@@ -21,7 +21,7 @@ async function cardLogin(token, taikoNumber) {
                     'Accept-Encoding': 'ko,en;q=0.9,en-US;q=0.8',
                     'Content-Length': '18',
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                    Cookie: '_token_v2=' + token,
+                    Cookie: token ? ('_token_v2=' + token) : undefined,
                     Origin: 'https://donderhiroba.jp',
                     Referer: 'https://donderhiroba.jp/login_select.php',
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.183'
@@ -46,7 +46,7 @@ async function cardLogin(token, taikoNumber) {
             await (0, axios_1.default)({
                 method: 'get',
                 url: response.headers.location,
-                headers: (0, createHeader_js_1.default)('_token_v2=' + token)
+                headers: token ? (0, createHeader_js_1.default)('_token_v2=' + token) : (0, createHeader_js_1.default)()
             });
         }
         catch (err) {

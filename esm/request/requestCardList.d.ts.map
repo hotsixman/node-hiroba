@@ -1,1 +1,1 @@
-{"version":3,"file":"requestCardList.d.ts","sourceRoot":"","sources":["../../src/request/requestCardList.ts"],"names":[],"mappings":"AAYA,wBAA8B,eAAe,CAAC,KAAK,EAAE,MAAM,GAAG,OAAO,CAAC,MAAM,CAAC,CAiB5E"}
+{"version":3,"file":"requestCardList.d.ts","sourceRoot":"","sources":["../../src/request/requestCardList.ts"],"names":[],"mappings":"AAWA,wBAA8B,eAAe,CAAC,KAAK,EAAE,MAAM,GAAG,IAAI,GAAG,OAAO,CAAC,MAAM,CAAC,CAiBnF"}

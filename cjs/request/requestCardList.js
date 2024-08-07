@@ -13,7 +13,7 @@ async function requestCardList(token) {
         response = await (0, axios_1.default)({
             method: 'get',
             url: 'https://donderhiroba.jp/login_select.php',
-            headers: (0, createHeader_js_1.default)(`_token_v2=${token}`)
+            headers: token ? (0, createHeader_js_1.default)(`_token_v2=${token}`) : (0, createHeader_js_1.default)()
         });
     }
     catch (err) {
