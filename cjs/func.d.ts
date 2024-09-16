@@ -6,9 +6,15 @@ import getCurrentLogin from "./func/getCurrentLogin.js";
 import getDaniData from "./func/getDaniData.js";
 import getScoreData from "./func/getScoreData.js";
 import updateScore from "./func/updateScore.js";
+import getCompeData from "./func/getCompeData.js";
+import getCompeDetail from "./func/getCompeDetail.js";
+import getCompeRanking from "./func/getCompeRanking.js";
 declare const func: {
     getCardList: typeof getCardList;
     getClearData: typeof getClearData;
+    getCompeData: typeof getCompeData;
+    getCompeDetail: typeof getCompeDetail;
+    getCompeRanking: typeof getCompeRanking;
     getSessionToken: typeof getSessionToken;
     cardLogin: typeof cardLogin;
     getCurrentLogin: typeof getCurrentLogin;

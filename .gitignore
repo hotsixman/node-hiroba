@@ -1,6 +1,8 @@
 node_modules/
 test.ts
-*.js.map
+*.d.ts
+*.map
+*.js
 test.js
 .gitignore
 

@@ -3,6 +3,9 @@ import parse from "./parse.js";
 declare const hiroba: {
     getCardList: typeof import("./func/getCardList.js").default;
     getClearData: typeof import("./func/getClearData.js").default;
+    getCompeData: typeof import("./func/getCompeData.js").default;
+    getCompeDetail: typeof import("./func/getCompeDetail.js").default;
+    getCompeRanking: typeof import("./func/getCompeRanking.js").default;
     getSessionToken: typeof import("./func/getSessionToken.js").default;
     cardLogin: typeof import("./func/cardLogin.js").default;
     getCurrentLogin: typeof import("./func/getCurrentLogin.js").default;

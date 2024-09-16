@@ -11,9 +11,15 @@ const getCurrentLogin_js_1 = __importDefault(require("./func/getCurrentLogin.js"
 const getDaniData_js_1 = __importDefault(require("./func/getDaniData.js"));
 const getScoreData_js_1 = __importDefault(require("./func/getScoreData.js"));
 const updateScore_js_1 = __importDefault(require("./func/updateScore.js"));
+const getCompeData_js_1 = __importDefault(require("./func/getCompeData.js"));
+const getCompeDetail_js_1 = __importDefault(require("./func/getCompeDetail.js"));
+const getCompeRanking_js_1 = __importDefault(require("./func/getCompeRanking.js"));
 const func = {
     getCardList: getCardList_js_1.default,
     getClearData: getClearData_js_1.default,
+    getCompeData: getCompeData_js_1.default,
+    getCompeDetail: getCompeDetail_js_1.default,
+    getCompeRanking: getCompeRanking_js_1.default,
     getSessionToken: getSessionToken_js_1.default,
     cardLogin: cardLogin_js_1.default,
     getCurrentLogin: getCurrentLogin_js_1.default,
