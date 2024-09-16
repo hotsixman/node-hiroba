@@ -6,10 +6,12 @@ import getCurrentLogin from "./func/getCurrentLogin.js";
 import getDaniData from "./func/getDaniData.js";
 import getScoreData from "./func/getScoreData.js";
 import updateScore from "./func/updateScore.js";
+import getCompeData from "./func/getCompeData.js";
 
 const func = {
     getCardList,
     getClearData,
+    getCompeData,
     getSessionToken,
     cardLogin,
     getCurrentLogin,
