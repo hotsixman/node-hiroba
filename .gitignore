@@ -3,3 +3,5 @@ test.ts
 *.js.map
 test.js
 .gitignore
+
+tests

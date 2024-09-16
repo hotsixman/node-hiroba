@@ -1,12 +1,15 @@
-import parse from "../parse.js";
-import request from "../request.js";
-import { CompeData } from "../types/compeData";
+import getCompeDetail from "./getCompeDetail.js";
+import getCompeRanking from "./getCompeRanking.js";
+import type { CompeData } from "../types/compeData";
 
 export default async function getCompeData(token: string | null, compeId: string): Promise<CompeData> {
-  const detailResponse = await request.requestCompeDetailData(token, compeId)
-  const rankingResponse = await request.requestCompeRankingData(token, compeId)
+  const detail = await getCompeDetail(token, compeId);
+  const ranking = await getCompeRanking(token, compeId);
 
-  const parsed = parse.parseCompeData(detailResponse, rankingResponse)
+  const compeData = {
+    ...detail,
+    ranking
+  }
 
-  return parsed as CompeData
+  return compeData;
 }

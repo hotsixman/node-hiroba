@@ -1,9 +1,9 @@
 import axios from "axios";
-import createHeader from "../createHeader";
-import HirobaError from "../hirobaError";
-import checkLogin from "../parse/checkLogin";
+import createHeader from "../createHeader.js";
+import HirobaError from "../hirobaError.js";
+import checkLogin from "../parse/checkLogin.js";
 
-export default async function requestCompeData(token: string | null, compeId: string) {
+export default async function requestCompeDetail(token: string | null, compeId: string) {
   let response;
   try {
     response = await axios({
