@@ -1,3 +1,4 @@
+import { CompeDate } from "../class/compeDate.js";
 import { Difficulty } from "./clearData";
 
 export type CompeData = CompeDetail & { ranking: RankingData[]; };
@@ -7,8 +8,8 @@ export interface CompeDetail {
   hostNickname: string;
   hostTaikoNo: string;
   totalEntry: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: CompeDate;
+  endDate: CompeDate;
   songList: CompeSongData[];
 }
 
