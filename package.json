@@ -1,6 +1,6 @@
 {
   "name": "node-hiroba",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "",
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
