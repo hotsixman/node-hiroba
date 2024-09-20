@@ -1,8 +1,12 @@
 import { load } from "cheerio";
 import { RankingData } from "../types/compeData";
 
-export default function parseCompeRanking(body: string): RankingData[] {
+export default function parseCompeRanking(body: string): RankingData[] | null {
     const $ = load(body);
+
+    if($('header > h1').text().trim() === 'エラー'){
+        return null;
+    }
 
     const rankingDatas: RankingData[] = [];
 
