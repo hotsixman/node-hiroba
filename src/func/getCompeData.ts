@@ -1,6 +1,6 @@
 import getCompeDetail from "./getCompeDetail.js";
 import getCompeRanking from "./getCompeRanking.js";
-import type { CompeData } from "../types/compeData";
+import type { CompeData } from "../types/compeData.js";
 
 export default async function getCompeData(token: string | null, compeId: string): Promise<CompeData | null> {
   const detail = await getCompeDetail(token, compeId);

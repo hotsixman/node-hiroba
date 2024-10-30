@@ -1,6 +1,6 @@
-export type * from './cardData';
-export type * from './clearData';
-export type * from './daniData';
-export type * from './errorCodes';
-export type * from './scoreData';
-export type * from './compeData'
+export type * from './cardData.js';
+export type * from './clearData.js';
+export type * from './daniData.js';
+export type * from './errorCodes.js';
+export type * from './scoreData.js';
+export type * from './compeData.js';

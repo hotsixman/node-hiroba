@@ -1,5 +1,5 @@
 import { CompeDate } from "../class/compeDate.js";
-import { Difficulty } from "./clearData";
+import { Difficulty } from "./clearData.js";
 
 export type CompeData = (CompeDetail & { ranking: RankingData[]; })
 

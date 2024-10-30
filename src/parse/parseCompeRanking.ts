@@ -1,5 +1,5 @@
 import { load } from "cheerio";
-import { RankingData } from "../types/compeData";
+import { RankingData } from "../types/compeData.js";
 
 export default function parseCompeRanking(body: string): RankingData[] | null {
     const $ = load(body);

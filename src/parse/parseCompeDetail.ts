@@ -1,6 +1,6 @@
 import { load } from "cheerio";
 import type { CompeDetail, CompeSongData } from "../types/compeData.js";
-import { Difficulty } from "../types/clearData";
+import { Difficulty } from "../types/clearData.js";
 import { CompeDate } from "../class/compeDate.js";
 
 export default function parseCompeDetail(body: string): CompeDetail | null {
