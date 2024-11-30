@@ -5,7 +5,7 @@ import getCardList from './getCardList.js';
 import type { CardData } from '../types/cardData.js';
 
 
-export default async function cardLogin(token: string | null, taikoNumber: number): Promise<CardData | null> {
+export default async function cardLogin(token: string | null, taikoNumber: string): Promise<CardData | null> {
     //카드 리스트 수집
     let list: CardData[] = await getCardList(token);//여기서 로그인체크 했음
 
