@@ -1,5 +1,5 @@
 export interface CardData{
-    taikoNumber: number;
+    taikoNumber: string;
     nickname: string;
     myDon: string | undefined;
 }

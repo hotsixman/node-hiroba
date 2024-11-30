@@ -17,7 +17,7 @@ export default function parseCurrentLogin(body: string): CardData {
     {
         let detailDiv = $(userDiv).find('div.detail');
         let taikoNumberP = $(detailDiv).find('p')[1]
-        taikoNumber = Number($(taikoNumberP).text().replace('太鼓番：', ''));
+        taikoNumber = $(taikoNumberP).text().replace('太鼓番：', '');
     }
 
     let myDon;
