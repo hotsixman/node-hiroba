@@ -1,7 +1,7 @@
 {
   "name": "node-hiroba",
-  "version": "1.7.5",
-  "description": "",
+  "version": "1.7.6",
+  "description": "Donderhiroba for js.",
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
   "exports": {
@@ -9,7 +9,7 @@
       "import": "./esm/index.js",
       "require": "./cjs/index.js"
     },
-    "./types": "./src/types/types.ts"
+    "./types": "./src/types/types.js"
   },
   "scripts": {
     "build": "npm run build:cjs & npm run build:esm",
