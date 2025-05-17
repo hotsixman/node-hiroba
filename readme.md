@@ -4,7 +4,7 @@ hiroba.js is scraping library for javascript which scrapes [donderhiroba](https:
 
 ## How it Works
 
-![](/docs/img/how%20it%20works.svg)
+![](/docs/img/how%20it%20works.svg) 
 
 ## Install
 
