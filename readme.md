@@ -1,6 +1,6 @@
-# node-hiroba
+# hiroba.js
 
-node-hiroba is scraping library for javascript which scrapes [donderhiroba](https://donderhiroba.jp)
+hiroba.js is scraping library for javascript which scrapes [donderhiroba](https://donderhiroba.jp)
 
 ## How it Works
 
@@ -8,16 +8,16 @@ node-hiroba is scraping library for javascript which scrapes [donderhiroba](http
 
 ## Install
 
-`npm install node-hiroba`
+`npm install hiroba-js`
 
 ### CommonJs
 ```js
-const {default:hiroba} = require('node-hiroba');
+const {default:hiroba} = require('hiroba-js');
 ```
 
 ### EsModule
 ```js
-import hiroba from 'node-hiroba';
+import hiroba from 'hiroba-js';
 ```
 
 This library depends on only `axios` and `cheerio`, but maybe you can't use this library on browser due to `CORS`.
